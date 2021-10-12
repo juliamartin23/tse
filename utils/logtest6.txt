@@ -1,0 +1,20 @@
+==15897== Memcheck, a memory error detector
+==15897== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==15897== Using Valgrind-3.13.0 and LibVEX; rerun with -h for copyright info
+==15897== Command: ./test6
+==15897== 
+adding five cars to list
+applied the print car function so that the list of cars should print outPlate : 5, Price: 3008.000000, Year: 2009
+Plate : 4, Price: 3006.000000, Year: 2008
+Plate : 3, Price: 3004.000000, Year: 2007
+Plate : 2, Price: 3002.000000, Year: 2006
+Plate : 1, Price: 3000.000000, Year: 2005
+==15897== 
+==15897== HEAP SUMMARY:
+==15897==     in use at exit: 0 bytes in 0 blocks
+==15897==   total heap usage: 6 allocs, 6 frees, 8,392 bytes allocated
+==15897== 
+==15897== All heap blocks were freed -- no leaks are possible
+==15897== 
+==15897== For counts of detected and suppressed errors, rerun with: -v
+==15897== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
