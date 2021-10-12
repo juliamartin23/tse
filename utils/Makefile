@@ -24,7 +24,6 @@ test6:	list.o test6.o
 
 				gcc $(CFLAGS) list.o test6.o -o test6
 
-test7:	list.o test7.o
 				gcc $(CFLAGS) list.o test7.o -o test7
 
 test8:  list.o test8.o
