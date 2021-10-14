@@ -1,0 +1,12 @@
+# Not ignored: .c .h Makefiles
+
+# object files and libraries
+*.o
+
+
+#emacs files
+\#*\#
+.\#*
+
+debugging
+.dSYM
