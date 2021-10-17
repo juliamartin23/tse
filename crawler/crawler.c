@@ -11,9 +11,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+typedef struct webpage webpage_t;
+
 int main(void){
 
 	printf("hello");
+
+	webpage_t first_page = webpage_new(char *url, const int depth, char *html);
 
 	return 0;
 
