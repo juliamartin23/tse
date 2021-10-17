@@ -1,6 +1,10 @@
-xCFLAGS= -Wall -pedantic -std=c11 -I<~/tse/utils> -L<~/tse/lib> -g
-LIBS=-Iutils -Icurl
+CFLAGS= -Wall -pedantic -std=c11 -I ../utils -L ../lib -g
+LIBS=-lutils -lcurl
 #I wrote I instead of l 
 
-crawler:
+crawler: crawler.c
 	gcc $(CFLAGS) crawler.c $(LIBS) -o $@
+
+
+clean:
+	rm -f *.o crawler
