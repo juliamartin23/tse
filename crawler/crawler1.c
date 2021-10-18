@@ -31,8 +31,10 @@ static void printurl(void *cp) {
 
 int main(void){
 	//printf("hello\n");
+	webpage_t *p1;
 	queue_t *qt = qopen();
 	webpage_t* page = webpage_new("https://thayer.github.io/engs50/", 0, NULL);
+	
  	if(webpage_fetch(page)) {
 		char *html = webpage_getHTML(page);
 		printf("Found html: %s\n", html);
@@ -60,11 +62,11 @@ int main(void){
 		
 		qapply(qt, printurl);
 
-		while(qget(qt) != NULL){
-		 	webpage_t *p1 =(webpage_t*) qget(qt);
-		 	webpage_delete((void*)p1);
-		}
-		
+		do {
+		 	p1 = (webpage_t*)qget(qt);
+			if (p1!=NULL)
+				webpage_delete((void*)p1);
+		} while(p1!=NULL);
 		
 				
 		//		webpage_delete(nextpage);
