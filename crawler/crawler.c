@@ -54,9 +54,10 @@ int main(void){
 		int pos = 0;
 		char *result;
 		int depth = 1;
+		webpage_t* nextpage = malloc(sizeof(webpage_t));  
  		while ((pos = webpage_getNextURL(page, pos, &result)) > 0) {
 			//char *nexthtml = webpage_getHTML(result);
-			webpage_t* nextpage = malloc(sizeof(webpage_t));
+			//1			webpage_t* nextpage = malloc(sizeof(webpage_t));
 			nextpage= webpage_new(result, depth, NULL);
 			//char *nexthtml = webpage_getHTML(nextpage);
 			bool intern = IsInternalURL(result);
@@ -73,15 +74,18 @@ int main(void){
 			}
 			free(result);
 		}
+
 		
 		happly(table, printurl);
-		//	 	happly(table, webpage_delete);
+	 	happly(table, webpage_delete);
 		//	qapply(qt, printurl);
 		hclose(table);
-		//		qapply(qt, webpage_delete);
+
+		//redundant		qapply(qt, webpage_delete);
 	 	qclose(qt);
  		webpage_delete(page);
 		//		free(page);
+		free(nextpage);
 		exit(EXIT_SUCCESS);
 	}
 	exit(EXIT_FAILURE);

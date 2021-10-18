@@ -39,9 +39,11 @@ int main(void){
 		int pos = 0;
 		char *result;
 		int depth = 1;
- 		while ((pos = webpage_getNextURL(page, pos, &result)) > 0) {
+		webpage_t* nextpage;
+		
+		while ((pos = webpage_getNextURL(page, pos, &result)) > 0) {
 			//char *nexthtml = webpage_getHTML(result);
-			webpage_t* nextpage = webpage_new(result, depth, NULL);
+			nextpage = webpage_new(result, depth, NULL);
 			//char *nexthtml = webpage_getHTML(nextpage);
 			bool intern = IsInternalURL(result);
 			printf("Found url: %s", result);
@@ -51,15 +53,26 @@ int main(void){
 			}
 			else {
 				printf(" -external\n");	 
+				webpage_delete(nextpage);
 			}
 			free(result);
 		}
-
+		
 		qapply(qt, printurl);
-		qapply(qt, webpage_delete);
-		  	qclose(qt);
-			  webpage_delete(page);
-				exit(EXIT_SUCCESS);
+
+		while(qget(qt) != NULL){
+		 	webpage_t *p1 =(webpage_t*) qget(qt);
+		 	webpage_delete((void*)p1);
+		}
+		
+		
+				
+		//		webpage_delete(nextpage);
+		//	 	qapply(qt, webpage_delete);
+
+ 		qclose(qt);
+		webpage_delete(page);
+		exit(EXIT_SUCCESS);
 	}
 	exit(EXIT_FAILURE);
 	

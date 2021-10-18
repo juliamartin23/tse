@@ -60,7 +60,7 @@ void qclose(queue_t *qp){
         //need to free void element pointer
         void *el = p->element; 
         free(el); 
-		free(p);
+				free(p);
         p=temp;
     }
 	free(rqp);
