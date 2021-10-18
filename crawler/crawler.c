@@ -28,10 +28,10 @@ typedef struct webpage {
 
 typedef void queue_t;
 
-static void printurl(void *cp) {
-	webpage_t* p = (webpage_t *)cp;
-	printf("Url : %s\n", webpage_getURL(p));
-}
+//static void printurl(void *cp) {
+	//webpage_t* p = (webpage_t *)cp;
+	//printf("Url : %s\n", webpage_getURL(p));
+//}
 
 static void printelement(void *cp) {
 	char* p = (char *)cp;
@@ -74,6 +74,9 @@ int main(void){
 				if (!hsearch(table,searchfn,(void *)resulturl, strlen(resulturl))) {
 					hput(table,(void *)resulturl, (void *)resulturl, strlen(resulturl));
 				}
+				else {
+					free(resulturl);
+				}
 			}
 			else {
 				printf(" -external\n");	 
@@ -84,13 +87,13 @@ int main(void){
 
 		happly(table, printelement);
 		free(resulturl);
-		 
-		do {
-			p1=(webpage_t*)qget(qt);
-			if (p1!=NULL)
-		 		webpage_delete((void*)p1);
-		} while(p1!=NULL);
 
+		do {
+		 	p1 = (webpage_t*)qget(qt);
+			if (p1!=NULL)
+				webpage_delete((void*)p1);
+		} while(p1!=NULL);
+ 
 		webpage_delete(page);    
 
 		qclose(qt);
