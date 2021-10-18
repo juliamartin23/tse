@@ -33,61 +33,70 @@ static void printurl(void *cp) {
 	printf("Url : %s\n", webpage_getURL(p));
 }
 
+static void printelement(void *cp) {
+	char* p = (char *)cp;
+	printf("Url : %s\n", p);                                                                
+}
 
 bool searchfn (void *elementp, const void *keyp){
-	webpage_t* webpage1 = elementp;
+	char* urlptr = (char*)elementp;
 	//printf("plate: %s\n", webpage1->url); 
-	if(strcmp(webpage1->url, keyp) == 0) {
+	if(strcmp(urlptr, keyp) == 0) {
 		return true;
 	} 
 	return false; 
 }
 
 int main(void){
-	//printf("hello\n");
+	webpage_t *p1;
 	queue_t *qt = qopen();
-	hashtable_t* table = hopen(TABLESIZE); 
-	webpage_t* page = webpage_new("https://thayer.github.io/engs50/", 0, NULL);
+	hashtable_t *table = hopen(TABLESIZE); 
+	webpage_t *page = webpage_new("https://thayer.github.io/engs50/", 0, NULL);
+
  	if(webpage_fetch(page)) {
 		char *html = webpage_getHTML(page);
 		printf("Found html: %s\n", html);
 		int pos = 0;
-		char *result;
+		char *resulturl;
 		int depth = 1;
-		webpage_t* nextpage = malloc(sizeof(webpage_t));  
- 		while ((pos = webpage_getNextURL(page, pos, &result)) > 0) {
+		webpage_t* nextpage;
+		
+ 		while ((pos = webpage_getNextURL(page, pos, &resulturl)) > 0) {
 			//char *nexthtml = webpage_getHTML(result);
 			//1			webpage_t* nextpage = malloc(sizeof(webpage_t));
-			nextpage= webpage_new(result, depth, NULL);
+			nextpage= webpage_new(resulturl, depth, NULL);
 			//char *nexthtml = webpage_getHTML(nextpage);
-			bool intern = IsInternalURL(result);
-			printf("Found url: %s", result);
+			bool intern = IsInternalURL(resulturl);
+			printf("Found url: %s", resulturl);
 		 	if (intern) {
 				printf(" -internal\n");
-			 	qput(qt, (void *)nextpage);
-				if (!hsearch(table,searchfn,(void *)result, strlen(result))) {
-					hput(table,(void *) nextpage, (void *)result, strlen(result));
+				qput(qt, (void *)nextpage);
+				if (!hsearch(table,searchfn,(void *)resulturl, strlen(resulturl))) {
+					hput(table,(void *)resulturl, (void *)resulturl, strlen(resulturl));
 				}
 			}
 			else {
 				printf(" -external\n");	 
+				webpage_delete(nextpage);
 			}
-			free(result);
+			//	free(resulturl);
 		}
 
-		
-		happly(table, printurl);
-	 	happly(table, webpage_delete);
-		//	qapply(qt, printurl);
-		hclose(table);
+		happly(table, printelement);
+		free(resulturl);
+		 
+		do {
+			p1=(webpage_t*)qget(qt);
+			if (p1!=NULL)
+		 		webpage_delete((void*)p1);
+		} while(p1!=NULL);
 
-		//redundant		qapply(qt, webpage_delete);
-	 	qclose(qt);
- 		webpage_delete(page);
-		//		free(page);
-		free(nextpage);
+		webpage_delete(page);    
+
+		qclose(qt);
+		hclose(table);
+		
 		exit(EXIT_SUCCESS);
 	}
 	exit(EXIT_FAILURE);
-	
 }
