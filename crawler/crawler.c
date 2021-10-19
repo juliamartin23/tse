@@ -16,6 +16,7 @@
 #include "../utils/hash.h"    
 #include <stdbool.h>
 #include <string.h>
+#include <sys/stat.h>
 
 #define TABLESIZE 10 
 
@@ -51,7 +52,8 @@ bool searchfn (void *elementp, const void *keyp){
 int32_t pagesave(webpage_t *pagep, int id, char *dirname){
 	FILE *fp;
 	char filename[100]; 
-	sprintf(filename, "%s/%d", dirname, id); 
+
+	sprintf(filename, "../%s/%d.txt", dirname, id); 
 	fp = fopen(filename, "w"); 
 	if(fp == NULL){ 
 		return 2; 
@@ -107,7 +109,8 @@ int main(void){
 			}
 			//	free(resulturl);
 		}
-
+		pagesave(page, 1,"pages");
+		
 		happly(table, printelement);
 		free(resulturl);
 
@@ -116,7 +119,7 @@ int main(void){
 			if (p1!=NULL)
 				webpage_delete((void*)p1);
 		} while(p1!=NULL);
- 
+
 		webpage_delete(page);    
 
 		qclose(qt);
