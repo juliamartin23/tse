@@ -51,7 +51,7 @@ bool searchfn (void *elementp, const void *keyp){
 int32_t pagesave(webpage_t *pagep, int id, char *dirname){
 	FILE *fp;
 	char filename[100]; 
-	sprintf(filename, “%s/%d”, dirname, id); 
+	sprintf(filename, "%s/%d", dirname, id); 
 	fp = fopen(filename, "w"); 
 	if(fp == NULL){ 
 		return 2; 
@@ -64,7 +64,7 @@ int32_t pagesave(webpage_t *pagep, int id, char *dirname){
 
 	fprintf(fp, "%s\n%d\n%d\n%s", url, depth, len, html); 
 
-	fclose(filename); 
+	fclose(fp); 
 
 	return 0; 
 }
