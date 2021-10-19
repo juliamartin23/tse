@@ -47,6 +47,14 @@ bool searchfn (void *elementp, const void *keyp){
 	return false; 
 }
 
+
+int32_t pagesave(webpage_t *pagep, int id, char *dirname){
+	FILE *fp;
+	fp=fopen("~../%s.%d.txt",dirname, id, "w");
+	fprintf(fp, "%s %s %s %d", "We", "are", "in", 2012);
+}
+
+
 int main(void){
 	webpage_t *p1;
 	queue_t *qt = qopen();
