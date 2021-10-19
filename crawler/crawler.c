@@ -50,8 +50,23 @@ bool searchfn (void *elementp, const void *keyp){
 
 int32_t pagesave(webpage_t *pagep, int id, char *dirname){
 	FILE *fp;
-	fp=fopen("~../%s.%d.txt",dirname, id, "w");
-	fprintf(fp, "%s %s %s %d", "We", "are", "in", 2012);
+	char filename[100]; 
+	sprintf(filename, “%s/%d”, dirname, id); 
+	fp = fopen(filename, "w"); 
+	if(fp == NULL){ 
+		return 2; 
+	}
+	
+	char* url = webpage_getURL(pagep); 
+	int depth = webpage_getDepth(pagep); 
+	char* html = webpage_getHTML(pagep); 
+	int len = webpage_getHTMLlen(pagep); 
+
+	fprintf(fp, "%s\n%d\n%d\n%s", url, depth, len, html); 
+
+	fclose(filename); 
+
+	return 0; 
 }
 
 
