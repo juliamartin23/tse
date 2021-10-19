@@ -10,24 +10,16 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
-#include "../utils/webpage.h"
-#include "../utils/queue.h"
-#include "../utils/list.h"
-#include "../utils/hash.h"    
 #include <stdbool.h>
 #include <string.h>
 #include <sys/stat.h>
 
+#include <webpage.h>
+#include <queue.h>
+#include <hash.h>
+
+
 #define TABLESIZE 10 
-
-typedef struct webpage {
-  char *url;                               // url of the page
-  char *html;                              // html code of the page
-  size_t html_len;                         // length of html code
-  int depth;                               // depth of crawl
-} webpage_t;
-
-typedef void queue_t;
 
 //static void printurl(void *cp) {
 	//webpage_t* p = (webpage_t *)cp;
@@ -72,56 +64,80 @@ int32_t pagesave(webpage_t *pagep, int id, char *dirname){
 }
 
 
-int main(void){
+int main(int argc, char *argv[]){
 	webpage_t *p1;
 	queue_t *qt = qopen();
 	hashtable_t *table = hopen(TABLESIZE); 
-	webpage_t *page = webpage_new("https://thayer.github.io/engs50/", 0, NULL);
+	
+	char* seedurl = argv[1]; 
+	char* pagedir = argv[2]; 
+	int maxdepth = atoi(argv[3]); 
+	webpage_t *page = webpage_new(seedurl, 0, NULL);
+
+
+	if(argc != 4){
+		printf("usage: not enough arguments\n"); 
+		exit(EXIT_FAILURE); 
+	}
+
+	if(maxdepth < 0) {
+		printf("usage: maxdepth non-negative\n"); 
+		exit(EXIT_FAILURE); 
+	}
+
 
  	if(webpage_fetch(page)) {
 		char *html = webpage_getHTML(page);
 		printf("Found html: %s\n", html);
-		int pos = 0;
 		char *resulturl;
-		int depth = 1;
 		webpage_t* nextpage;
+		int id = 1; 
+		int pos = 0; 
 		
- 		while ((pos = webpage_getNextURL(page, pos, &resulturl)) > 0) {
-			//char *nexthtml = webpage_getHTML(result);
-			//1			webpage_t* nextpage = malloc(sizeof(webpage_t));
-			nextpage= webpage_new(resulturl, depth, NULL);
-			//char *nexthtml = webpage_getHTML(nextpage);
-			bool intern = IsInternalURL(resulturl);
-			printf("Found url: %s", resulturl);
-		 	if (intern) {
-				printf(" -internal\n");
-				qput(qt, (void *)nextpage);
-				if (!hsearch(table,searchfn,(void *)resulturl, strlen(resulturl))) {
-					hput(table,(void *)resulturl, (void *)resulturl, strlen(resulturl));
+		qput(qt, page); 
+		int loop = 0; 
+		
+		while(qt != NULL && loop <= maxdepth){
+			webpage_t *currpage = qget(qt); 
+			//check if currpage is in hashtable 
+		
+				int currdepth = webpage_getDepth(currpage); 
+				while ((pos = webpage_getNextURL(currpage, pos, &resulturl)) > 0){			
+					bool intern = IsInternalURL(resulturl);
+					printf("Found url: %s", resulturl);
+					if (intern) {
+						printf(" -internal\n");
+						qput(qt, (void *)nextpage);
+						if (!hsearch(table,searchfn,(void *)resulturl, strlen(resulturl))) {
+							hput(table,(void *)resulturl, (void *)resulturl, strlen(resulturl));
+							pagesave(currpage, id, pagedir); 
+							nextpage= webpage_new(resulturl, currdepth+1, NULL);
+						}
+						else {
+							free(resulturl);
+						}
+					}
+					else {
+						printf(" -external\n");	 
+						webpage_delete(nextpage);
+					}
 				}
-				else {
-					free(resulturl);
-				}
-			}
-			else {
-				printf(" -external\n");	 
-				webpage_delete(nextpage);
-			}
-			//	free(resulturl);
+				loop++; 
+				id++; 	
 		}
-		pagesave(page, 1,"pages");
 		
 		happly(table, printelement);
 		free(resulturl);
-
+		
+		
 		do {
 		 	p1 = (webpage_t*)qget(qt);
 			if (p1!=NULL)
 				webpage_delete((void*)p1);
 		} while(p1!=NULL);
-
+		
 		webpage_delete(page);    
-
+		
 		qclose(qt);
 		hclose(table);
 		
