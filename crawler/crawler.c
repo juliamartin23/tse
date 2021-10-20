@@ -26,10 +26,10 @@
 //	printf("Url : %s\n", webpage_getURL(p));
 //}
 
-static void printelement(void *cp) {
-	char* p = (char *)cp;
-	printf("Url : %s\n", p);                                                                
-}
+// static void printelement(void *cp) {
+// 	char* p = (char *)cp;
+// 	printf("Url : %s\n", p);                                                                
+// }
 
 bool searchfn (void *elementp, const void *keyp){
 	char* urlptr = (char*)elementp;
@@ -65,11 +65,11 @@ int32_t pagesave(webpage_t *pagep, int id, char *dirname){
 
 
 int main(int argc, char *argv[]){
-	webpage_t *p1;
+	//webpage_t *p1;
 	queue_t *qt = qopen();
 	hashtable_t *table = hopen(TABLESIZE); 
 	
-	char* seedurl = malloc(sizeof(char)*100);
+	char* seedurl = malloc(sizeof(char)*50);
 	strcpy(seedurl, argv[1]); 
 	char* pagedir = argv[2]; 
 	int maxdepth = atoi(argv[3]); 
@@ -91,7 +91,6 @@ int main(int argc, char *argv[]){
  		char *resulturl;
 		int id = 1; 
 		int pos = 0; 
-		printf("seed: %s\n", seedurl);
 		qput(qt, page); 
 		hput(table,(void *)seedurl, (void *)seedurl, strlen(seedurl));
 		webpage_t *currpage;
@@ -136,23 +135,25 @@ int main(int argc, char *argv[]){
 						printf(" -external\n");	 
 						webpage_delete(nextpage);
 					}
-					//webpage_delete(currpage);
+
 				}
-				//webpage_delete(currpage);
+
 			}
+			webpage_delete(currpage);
+
 		}
 		
 		//happly(table, printelement);
-		//free(resulturl);
+		free(resulturl);
+		//free(seedurl);
 		
 		
-		// do {
-		//   	p1 = (webpage_t*)qget(qt);
-		//  	if (p1!=NULL)
-		//  		webpage_delete((void*)p1);
-		//  } while(p1!=NULL);
+		//do {
+		  // 	p1 = (webpage_t*)qget(qt);
+		  	//if (p1!=NULL)
+		  	//	webpage_delete((void*)p1);
+		  //} while(p1!=NULL);
 		
-		//webpage_delete(page);    
 		
 		qclose(qt);
 		hclose(table);
