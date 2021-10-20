@@ -69,7 +69,8 @@ int main(int argc, char *argv[]){
 	queue_t *qt = qopen();
 	hashtable_t *table = hopen(TABLESIZE); 
 	
-	char* seedurl = argv[1]; 
+	char* seedurl = malloc(sizeof(char)*100);
+	strcpy(seedurl, argv[1]); 
 	char* pagedir = argv[2]; 
 	int maxdepth = atoi(argv[3]); 
 	webpage_t *page = webpage_new(seedurl, 0, NULL);
@@ -90,12 +91,13 @@ int main(int argc, char *argv[]){
  		char *resulturl;
 		int id = 1; 
 		int pos = 0; 
-		
+		printf("seed: %s\n", seedurl);
 		qput(qt, page); 
-
+		hput(table,(void *)seedurl, (void *)seedurl, strlen(seedurl));
+		webpage_t *currpage;
 		
-		while(qt != NULL){
-			webpage_t *currpage = qget(qt); 
+		while((currpage = qget(qt)) != NULL){
+			//webpage_t *currpage = qget(qt); 
 
  			if(webpage_fetch(currpage)) {
 				//char *html = webpage_getHTML(currpage);
@@ -110,7 +112,8 @@ int main(int argc, char *argv[]){
 		
 				int currdepth = webpage_getDepth(currpage) + 1; 
 
-				while ((pos = webpage_getNextURL(currpage, pos, &resulturl)) > 0 && currdepth <= maxdepth){			
+				while ((pos = webpage_getNextURL(currpage, pos, &resulturl)) > 0 && currdepth <= maxdepth){	
+					
 					bool intern = IsInternalURL(resulturl);
 					nextpage= webpage_new(resulturl, currdepth, NULL);
 					printf("Found url: %s", resulturl);
@@ -118,7 +121,9 @@ int main(int argc, char *argv[]){
 						printf(" -internal\n");
 						//qput(qt, (void *)nextpage);
 						if (!hsearch(table,searchfn,(void *)resulturl, strlen(resulturl))) {
-							qput(qt, (void *)nextpage);
+							if (resulturl != seedurl) {
+								qput(qt, (void *)nextpage);
+							}
 							hput(table,(void *)resulturl, (void *)resulturl, strlen(resulturl));
 							//printf("hput happened");	
 							//printurl((void*)nextpage);
@@ -131,22 +136,23 @@ int main(int argc, char *argv[]){
 						printf(" -external\n");	 
 						webpage_delete(nextpage);
 					}
+					//webpage_delete(currpage);
 				}
-				
+				//webpage_delete(currpage);
 			}
 		}
 		
-		happly(table, printelement);
-		free(resulturl);
+		//happly(table, printelement);
+		//free(resulturl);
 		
 		
-		do {
-		 	p1 = (webpage_t*)qget(qt);
-			if (p1!=NULL)
-				webpage_delete((void*)p1);
-		} while(p1!=NULL);
+		// do {
+		//   	p1 = (webpage_t*)qget(qt);
+		//  	if (p1!=NULL)
+		//  		webpage_delete((void*)p1);
+		//  } while(p1!=NULL);
 		
-		webpage_delete(page);    
+		//webpage_delete(page);    
 		
 		qclose(qt);
 		hclose(table);
