@@ -22,8 +22,8 @@
 #define TABLESIZE 10 
 
 //static void printurl(void *cp) {
-	//webpage_t* p = (webpage_t *)cp;
-	//printf("Url : %s\n", webpage_getURL(p));
+//	webpage_t* p = (webpage_t *)cp;
+//	printf("Url : %s\n", webpage_getURL(p));
 //}
 
 static void printelement(void *cp) {
@@ -75,6 +75,7 @@ int main(int argc, char *argv[]){
 	webpage_t *page = webpage_new(seedurl, 0, NULL);
 
 
+
 	if(argc != 4){
 		printf("usage: not enough arguments\n"); 
 		exit(EXIT_FAILURE); 
@@ -86,32 +87,41 @@ int main(int argc, char *argv[]){
 	}
 
 
- 	if(webpage_fetch(page)) {
-		char *html = webpage_getHTML(page);
-		printf("Found html: %s\n", html);
-		char *resulturl;
-		webpage_t* nextpage;
+ 		char *resulturl;
 		int id = 1; 
 		int pos = 0; 
 		
 		qput(qt, page); 
-		int loop = 0; 
+
 		
-		while(qt != NULL && loop <= maxdepth){
+		while(qt != NULL){
 			webpage_t *currpage = qget(qt); 
+
+ 			if(webpage_fetch(currpage)) {
+				//char *html = webpage_getHTML(currpage);
+				//printf("Found html: %s\n", html);
+				pos=0;
+
+				pagesave(currpage, id, pagedir); 
+				id++;
+			
+				webpage_t* nextpage;
 			//check if currpage is in hashtable 
 		
-				int currdepth = webpage_getDepth(currpage); 
-				while ((pos = webpage_getNextURL(currpage, pos, &resulturl)) > 0){			
+				int currdepth = webpage_getDepth(currpage) + 1; 
+
+				while ((pos = webpage_getNextURL(currpage, pos, &resulturl)) > 0 && currdepth <= maxdepth){			
 					bool intern = IsInternalURL(resulturl);
+					nextpage= webpage_new(resulturl, currdepth, NULL);
 					printf("Found url: %s", resulturl);
 					if (intern) {
 						printf(" -internal\n");
-						qput(qt, (void *)nextpage);
+						//qput(qt, (void *)nextpage);
 						if (!hsearch(table,searchfn,(void *)resulturl, strlen(resulturl))) {
+							qput(qt, (void *)nextpage);
 							hput(table,(void *)resulturl, (void *)resulturl, strlen(resulturl));
-							pagesave(currpage, id, pagedir); 
-							nextpage= webpage_new(resulturl, currdepth+1, NULL);
+							//printf("hput happened");	
+							//printurl((void*)nextpage);
 						}
 						else {
 							free(resulturl);
@@ -122,8 +132,8 @@ int main(int argc, char *argv[]){
 						webpage_delete(nextpage);
 					}
 				}
-				loop++; 
-				id++; 	
+				
+			}
 		}
 		
 		happly(table, printelement);
@@ -141,7 +151,8 @@ int main(int argc, char *argv[]){
 		qclose(qt);
 		hclose(table);
 		
-		exit(EXIT_SUCCESS);
-	}
+		if(qt==NULL){
+			exit(EXIT_SUCCESS);
+		}
 	exit(EXIT_FAILURE);
 }
