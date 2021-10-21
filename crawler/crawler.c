@@ -107,7 +107,6 @@ int main(int argc, char *argv[]){
 				id++;
 			
 				webpage_t* nextpage;
-			//check if currpage is in hashtable 
 		
 				int currdepth = webpage_getDepth(currpage) + 1; 
 
@@ -137,7 +136,7 @@ int main(int argc, char *argv[]){
 					}
 
 				}
-
+				//webpage_delete(nextpage); 
 			}
 			webpage_delete(currpage);
 
@@ -145,7 +144,7 @@ int main(int argc, char *argv[]){
 		
 		//happly(table, printelement);
 		free(resulturl);
-		//free(seedurl);
+		free(seedurl);
 		
 		
 		//do {
