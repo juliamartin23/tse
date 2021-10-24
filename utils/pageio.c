@@ -6,6 +6,9 @@
 #include <sys/stat.h>
 
 #include <pageio.h>
+#include <webpage.h>
+#include <queue.h>
+#include <hash.h>
 
 int32_t pagesave(webpage_t *pagep, int id, char *dirname){
 	FILE *fp;
@@ -30,22 +33,30 @@ int32_t pagesave(webpage_t *pagep, int id, char *dirname){
 }
 
 webpage_t *pageload(int id, char *dirnm) {
+
     char* url; 
     int depth; 
     int len; 
-    char* html; 
+    char* html;
+
+
+    FILE *fp; 
     char filename[100]; 
 
-    sprintf(filename, "../%s/%d.txt", dirname, id); 
+    sprintf(filename, "../%s/%d.txt", dirnm, id); 
+    printf("filename: %s\n", filename);
     fp = fopen(filename, "r");
+    printf("file open\n");
 
     if(fp == NULL){
         printf("file is empty \n");
         return NULL; 
     }
 
-   fscanf(fp, "%s %d %d %s", url, depth, len, html); 
+   fscanf(fp, "%s %d %d %s", url, &depth, &len, html); 
+   printf("scanned\n");
    webpage_t *page = webpage_new(url, depth, html); 
+   printf("created page\n");
 
    return page; 
 
