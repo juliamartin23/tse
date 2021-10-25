@@ -65,7 +65,7 @@ int32_t pagesave(webpage_t *pagep, int id, char *dirname){
 
 
 int main(int argc, char *argv[]){
-	//webpage_t *p1;
+	webpage_t *p1;
 	queue_t *qt = qopen();
 	hashtable_t *table = hopen(TABLESIZE); 
 	
@@ -126,33 +126,36 @@ int main(int argc, char *argv[]){
 							hput(table,(void *)resulturl, (void *)resulturl, strlen(resulturl));
 							//printf("hput happened");	
 							//printurl((void*)nextpage);
+							//							free(resulturl);
 						}
 						else {
 							free(resulturl);
+							webpage_delete(nextpage);
 						}
 					}
 					else {
 						printf(" -external\n");	 
 						webpage_delete(nextpage);
+						
 					}
-
+					//					free(resulturl);
 				}
-
+			  	free(resulturl);
 			}
 			webpage_delete(currpage);
-
+ 			free(resulturl);
 		}
 		
 		//happly(table, printelement);
-		free(resulturl);
+
 		//free(seedurl);
 		
 		
-		//do {
-		  // 	p1 = (webpage_t*)qget(qt);
-		  	//if (p1!=NULL)
-		  	//	webpage_delete((void*)p1);
-		  //} while(p1!=NULL);
+		do {
+		   	p1 = (webpage_t*)qget(qt);
+		   if (p1!=NULL)
+		  		webpage_delete((void*)p1);
+		 } while(p1!=NULL);
 		
 		
 		qclose(qt);
