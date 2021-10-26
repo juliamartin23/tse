@@ -1,141 +1,954 @@
 overview
 engs
 labs
+word: overview
 notes
+word: engs
 reading
 resources
 examples
+word: reading
 overview
+word: overview
+Element found!
+word: overview
+Element found!
 engs
+word: engs
+Element found!
+word: engs
+Element found!
 you
 will
 learn
 how
+word: reading
+word: examples
 design
+word: engs
+word: notes
 amp
+word: reading
+word: examples
+word: how
 build
+word: will
 large
+word: will
+word: build
 reliable
+word: will
+word: build
+word: large
 maintainable
 and
+word: learn
 understandable
 software
 systems
+word: software
 the
+word: you
 process
+word: resources
 you
+word: you
+Element found!
+word: you
+Element found!
 will
+word: will
+Element found!
+word: will
+Element found!
 learn
+word: learn
+Element found!
+word: learn
+Element found!
 program
+word: overview
+word: labs
 with
+word: reading
+word: examples
+word: how
+word: amp
 unix
+word: reading
+word: examples
+word: how
+word: amp
+word: with
 development
+word: learn
+word: and
 tools
+word: maintainable
 let
+word: resources
+word: process
 break
+word: engs
+word: notes
+word: design
 that
+word: reading
+word: examples
+word: how
+word: amp
+word: with
+word: unix
 down
+word: will
+word: build
+word: large
+word: reliable
 the
+word: you
+word: the
+Element found!
+word: you
+word: the
+Element found!
 objectives
+word: maintainable
+word: tools
 this
+word: maintainable
+word: tools
+word: objectives
 course
+word: maintainable
+word: tools
+word: objectives
+word: this
 are
+word: understandable
 for
+word: you
+word: the
 you
+word: you
+Element found!
+word: you
+Element found!
 learn
+word: learn
+Element found!
+word: learn
+Element found!
 software
+word: software
+Element found!
+word: software
+Element found!
 design
+word: engs
+word: notes
+word: design
+Element found!
+word: engs
+word: notes
+word: design
+Element found!
 principles
+word: software
+word: systems
 good
+word: software
+word: systems
+word: principles
 coding
+word: overview
+word: labs
+word: program
 style
+word: software
+word: systems
+word: principles
+word: good
 and
+word: learn
+word: and
+Element found!
+word: learn
+word: and
+Element found!
 documentation
+word: learn
+word: and
+word: development
 debugging
+word: reading
+word: examples
+word: how
+word: amp
+word: with
+word: unix
+word: that
 and
+word: learn
+word: and
+Element found!
+word: learn
+word: and
+Element found!
 testing
+word: software
+word: systems
+word: principles
+word: good
+word: style
 design
+word: engs
+word: notes
+word: design
+Element found!
+word: engs
+word: notes
+word: design
+Element found!
 and
+word: learn
+word: and
+Element found!
+word: learn
+word: and
+Element found!
 coding
+word: overview
+word: labs
+word: program
+word: coding
+Element found!
+word: overview
+word: labs
+word: program
+word: coding
+Element found!
 with
+word: reading
+word: examples
+word: how
+word: amp
+word: with
+Element found!
+word: reading
+word: examples
+word: how
+word: amp
+word: with
+Element found!
 team
+word: engs
+word: notes
+word: design
+word: break
 programming
+word: software
+word: systems
+word: principles
+word: good
+word: style
+word: testing
 programming
+word: software
+word: systems
+word: principles
+word: good
+word: style
+word: testing
+word: programming
+Element found!
+word: software
+word: systems
+word: principles
+word: good
+word: style
+word: testing
+word: programming
+Element found!
 unix
+word: reading
+word: examples
+word: how
+word: amp
+word: with
+word: unix
+Element found!
+word: reading
+word: examples
+word: how
+word: amp
+word: with
+word: unix
+Element found!
 use
+word: overview
+word: labs
+word: program
+word: coding
 git
+word: you
+word: the
+word: for
 for
+word: you
+word: the
+word: for
+Element found!
+word: you
+word: the
+word: for
+Element found!
 source
+word: will
+word: build
+word: large
+word: reliable
+word: down
 code
+word: engs
+word: notes
+word: design
+word: break
+word: team
 management
+word: reading
+word: examples
+word: how
+word: amp
+word: with
+word: unix
+word: that
+word: debugging
 the
+word: you
+word: the
+Element found!
+word: you
+word: the
+Element found!
 first
+word: overview
+word: labs
+word: program
+word: coding
+word: use
 few
+word: learn
+word: and
+word: development
+word: documentation
 weeks
+word: understandable
+word: are
 this
+word: maintainable
+word: tools
+word: objectives
+word: this
+Element found!
+word: maintainable
+word: tools
+word: objectives
+word: this
+Element found!
 course
+word: maintainable
+word: tools
+word: objectives
+word: this
+word: course
+Element found!
+word: maintainable
+word: tools
+word: objectives
+word: this
+word: course
+Element found!
 are
+word: understandable
+word: are
+Element found!
+word: understandable
+word: are
+Element found!
 crash
+word: learn
+word: and
+word: development
+word: documentation
+word: few
 course
+word: maintainable
+word: tools
+word: objectives
+word: this
+word: course
+Element found!
+word: maintainable
+word: tools
+word: objectives
+word: this
+word: course
+Element found!
 unix
+word: reading
+word: examples
+word: how
+word: amp
+word: with
+word: unix
+Element found!
+word: reading
+word: examples
+word: how
+word: amp
+word: with
+word: unix
+Element found!
 and
+word: learn
+word: and
+Element found!
+word: learn
+word: and
+Element found!
 please
+word: learn
+word: and
+word: development
+word: documentation
+word: few
+word: crash
 sure
+word: understandable
+word: are
+word: weeks
 follow
+word: reading
+word: examples
+word: how
+word: amp
+word: with
+word: unix
+word: that
+word: debugging
+word: management
 the
+word: you
+word: the
+Element found!
+word: you
+word: the
+Element found!
 course
+word: maintainable
+word: tools
+word: objectives
+word: this
+word: course
+Element found!
+word: maintainable
+word: tools
+word: objectives
+word: this
+word: course
+Element found!
 coding
+word: overview
+word: labs
+word: program
+word: coding
+Element found!
+word: overview
+word: labs
+word: program
+word: coding
+Element found!
 style
+word: software
+word: systems
+word: principles
+word: good
+word: style
+Element found!
+word: software
+word: systems
+word: principles
+word: good
+word: style
+Element found!
 guide
+word: maintainable
+word: tools
+word: objectives
+word: this
+word: course
 all
+word: understandable
+word: are
+word: weeks
+word: sure
 your
+word: software
+word: systems
+word: principles
+word: good
+word: style
+word: testing
+word: programming
 assignments
+word: will
+word: build
+word: large
+word: reliable
+word: down
+word: source
 finally
+word: engs
+word: notes
+word: design
+word: break
+word: team
+word: code
 you
+word: you
+Element found!
+word: you
+Element found!
 join
+word: understandable
+word: are
+word: weeks
+word: sure
+word: all
 team
+word: engs
+word: notes
+word: design
+word: break
+word: team
+Element found!
+word: engs
+word: notes
+word: design
+word: break
+word: team
+Element found!
 other
+word: will
+word: build
+word: large
+word: reliable
+word: down
+word: source
+word: assignments
 students
+word: engs
+word: notes
+word: design
+word: break
+word: team
+word: code
+word: finally
 design
+word: engs
+word: notes
+word: design
+Element found!
+word: engs
+word: notes
+word: design
+Element found!
 build
+word: will
+word: build
+Element found!
+word: will
+word: build
+Element found!
 document
+word: learn
+word: and
+word: development
+word: documentation
+word: few
+word: crash
+word: please
 and
+word: learn
+word: and
+Element found!
+word: learn
+word: and
+Element found!
 test
+word: you
+word: the
+word: for
+word: git
 large
+word: will
+word: build
+word: large
+Element found!
+word: will
+word: build
+word: large
+Element found!
 software
+word: software
+Element found!
+word: software
+Element found!
 project
+word: learn
+word: and
+word: development
+word: documentation
+word: few
+word: crash
+word: please
+word: document
 your
+word: software
+word: systems
+word: principles
+word: good
+word: style
+word: testing
+word: programming
+word: your
+Element found!
+word: software
+word: systems
+word: principles
+word: good
+word: style
+word: testing
+word: programming
+word: your
+Element found!
 very
+word: overview
+word: labs
+word: program
+word: coding
+word: use
+word: first
 own
+word: will
+word: build
+word: large
+word: reliable
+word: down
+word: source
+word: assignments
+word: other
 search
+word: overview
+word: labs
+word: program
+word: coding
+word: use
+word: first
+word: very
 engine
+word: overview
+word: labs
+word: program
+word: coding
+word: use
+word: first
+word: very
+word: search
 engs
+word: engs
+Element found!
+word: engs
+Element found!
 dartmouth
+word: software
+word: systems
+word: principles
+word: good
+word: style
+word: testing
+word: programming
+word: your
 college
+word: resources
+word: process
+word: let
 this
+word: maintainable
+word: tools
+word: objectives
+word: this
+Element found!
+word: maintainable
+word: tools
+word: objectives
+word: this
+Element found!
 version
+word: software
+word: systems
+word: principles
+word: good
+word: style
+word: testing
+word: programming
+word: your
+word: dartmouth
 the
+word: you
+word: the
+Element found!
+word: you
+word: the
+Element found!
 course
+word: maintainable
+word: tools
+word: objectives
+word: this
+word: course
+Element found!
+word: maintainable
+word: tools
+word: objectives
+word: this
+word: course
+Element found!
 based
+word: reading
+word: examples
+word: how
+word: amp
+word: with
+word: unix
+word: that
+word: debugging
+word: management
+word: follow
 upon
+word: software
+word: systems
+word: principles
+word: good
+word: style
+word: testing
+word: programming
+word: your
+word: dartmouth
+word: version
 those
+word: understandable
+word: are
+word: weeks
+word: sure
+word: all
+word: join
 designed
+word: will
+word: build
+word: large
+word: reliable
+word: down
+word: source
+word: assignments
+word: other
+word: own
 professors
+word: resources
+word: process
+word: let
+word: college
 palmer
+word: understandable
+word: are
+word: weeks
+word: sure
+word: all
+word: join
+word: those
 kotz
+word: reading
+word: examples
+word: how
+word: amp
+word: with
+word: unix
+word: that
+word: debugging
+word: management
+word: follow
+word: based
 zhou
+word: will
+word: build
+word: large
+word: reliable
+word: down
+word: source
+word: assignments
+word: other
+word: own
+word: designed
 campbell
+word: engs
+word: notes
+word: design
+word: break
+word: team
+word: code
+word: finally
+word: students
 and
+word: learn
+word: and
+Element found!
+word: learn
+word: and
+Element found!
 balkcom
+word: will
+word: build
+word: large
+word: reliable
+word: down
+word: source
+word: assignments
+word: other
+word: own
+word: designed
+word: zhou
 deeply
+word: software
+word: systems
+word: principles
+word: good
+word: style
+word: testing
+word: programming
+word: your
+word: dartmouth
+word: version
+word: upon
 indebted
+word: overview
+word: labs
+word: program
+word: coding
+word: use
+word: first
+word: very
+word: search
+word: engine
 these
+word: resources
+word: process
+word: let
+word: college
+word: professors
 outstanding
+word: resources
+word: process
+word: let
+word: college
+word: professors
+word: these
 educators
+word: software
+word: systems
+word: principles
+word: good
+word: style
+word: testing
+word: programming
+word: your
+word: dartmouth
+word: version
+word: upon
+word: deeply
 stephen
+word: software
+word: systems
+word: principles
+word: good
+word: style
+word: testing
+word: programming
+word: your
+word: dartmouth
+word: version
+word: upon
+word: deeply
+word: educators
 taylor
+word: resources
+word: process
+word: let
+word: college
+word: professors
+word: these
+word: outstanding
 this
+word: maintainable
+word: tools
+word: objectives
+word: this
+Element found!
+word: maintainable
+word: tools
+word: objectives
+word: this
+Element found!
 page
+word: maintainable
+word: tools
+word: objectives
+word: this
+word: course
+word: guide
 was
+word: maintainable
+word: tools
+word: objectives
+word: this
+word: course
+word: guide
+word: page
 last
+word: software
+word: systems
+word: principles
+word: good
+word: style
+word: testing
+word: programming
+word: your
+word: dartmouth
+word: version
+word: upon
+word: deeply
+word: educators
+word: stephen
 updated
+word: will
+word: build
+word: large
+word: reliable
+word: down
+word: source
+word: assignments
+word: other
+word: own
+word: designed
+word: zhou
+word: balkcom
+Sum of table is: 141
