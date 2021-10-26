@@ -44,12 +44,12 @@ webpage_t *pageload(int id, char *dirnm) {
     char filename[100]; 
 
     sprintf(filename, "../%s/%d", dirnm, id); 
-    printf("filename: %s\n", filename);
+		//    printf("filename: %s\n", filename);
     fp = fopen(filename, "r");
-    printf("file open\n");
+		// printf("file open\n");
 
     if(fp == NULL){
-        printf("file is empty \n");
+      //  printf("file is empty \n");
         return NULL; 
     }
 
@@ -64,9 +64,9 @@ webpage_t *pageload(int id, char *dirnm) {
 	 }
 	 html[i-1]= '\0';
 	 
-	 printf("scanned\n");
+	 //printf("scanned\n");
    webpage_t *page = webpage_new(url, depth, html); 
-   printf("created page\n");
+   //printf("created page\n");
 
 	 fclose(fp);
 	 

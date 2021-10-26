@@ -1,0 +1,49 @@
+/* indexer.c --- 
+ * 
+ * 
+ * Author: Ezgi Okutan
+ * Created: Mon Oct 25 21:26:12 2021 (-0400)
+ * Version: 
+ * 
+ * Description: 
+ * 
+ */
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+#include "webpage.h"
+#include "pageio.h"
+
+bool NormalizeWord(char *word){
+
+	for (int i = 0; i < strlen(word); i++) {
+		if (!isalpha(word[i])) return false;
+		word[i] = tolower(word[i]);
+	}
+
+	return true;
+
+}
+
+										
+int main(void){
+
+	int id=1;
+	char* dirnm= "pages-depth3";
+ 	webpage_t *page = pageload(id, dirnm);  
+	int pos=0;
+	char *word;
+	
+	while((pos=webpage_getNextWord(page, pos, &word))>0){
+		if (strlen(word) > 2 && NormalizeWord(word)) {
+			printf("%s\n", word);
+		}
+		free(word);
+	}
+
+	 	
+	webpage_delete(page);
+ 
+	printf("hello world\n");
+	return 0;
+}
