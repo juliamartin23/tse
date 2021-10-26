@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 https://thayer.github.io/engs50/Resources/
 3
 16588
+=======
+https://thayer.github.io/engs50/Notes/crawler/activity.html
+3
+3050
+>>>>>>> 384f1e5bd435ca42f571d4856ac38fdd79014ca8
 <!DOCTYPE html>
 <html>
 
@@ -9,13 +15,21 @@ https://thayer.github.io/engs50/Resources/
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
+<<<<<<< HEAD
   <title>Resources</title>
+=======
+  <title>Activity - TSE Crawler</title>
+>>>>>>> 384f1e5bd435ca42f571d4856ac38fdd79014ca8
   <meta name="description" content="In Engs 50 you will learn how to design & build large, reliable, maintainable, and understandable software systems.  In the process you will learn to program in C with Unix development tools.
 ">
 
   <link rel="shortcut icon" href="/engs50/50.png" />
   <link rel="stylesheet" href="/engs50/css/main.css">
+<<<<<<< HEAD
   <link rel="canonical" href="/engs50/Resources/">
+=======
+  <link rel="canonical" href="/engs50/Notes/crawler/activity.html">
+>>>>>>> 384f1e5bd435ca42f571d4856ac38fdd79014ca8
 </head>
 
 
@@ -44,6 +58,7 @@ https://thayer.github.io/engs50/Resources/
         <article class="post">
 
   <header class="post-header">
+<<<<<<< HEAD
     <h1 class="post-title">Resources</h1>
   </header>
 
@@ -202,6 +217,37 @@ Installation is simple; this link has instructions for installing and using XQua
 
 <p>Remember that we’re not suggesting you buy all these books.
 The text by Harbison and Steele is highly recommended for this course and may be in local bookstores.</p>
+=======
+    <h1 class="post-title">Activity - TSE Crawler</h1>
+  </header>
+
+  <div class="post-content">
+    <h3 id="goals">Goals</h3>
+
+<ul>
+  <li>to run the <em>Crawler</em> over a small website</li>
+  <li>to understand how it explores from page to page</li>
+</ul>
+
+<h3 id="activity">Activity</h3>
+
+<p><strong><em>One</em></strong> person in your group should run my crawler over a little website, at various depths, and try to understand what it’s doing.
+It’s a long command so I broke it over several lines:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~cs50/demo/crawler \
+  http://old-www.cs.dartmouth.edu/~cs50/data/tse/letters/index.html \
+  data 0
+</code></pre></div></div>
+
+<p><strong><em>Another</em></strong> person in your group should examine the source files for that website:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd ~cs50/data/tse/letters
+less *.html
+</code></pre></div></div>
+
+<p><strong><em>Another</em></strong> person in your group can visit the page in your browser, <a href="http://old-www.cs.dartmouth.edu/~cs50/data/tse/letters/index.html">here</a>.</p>
+
+>>>>>>> 384f1e5bd435ca42f571d4856ac38fdd79014ca8
 
   </div>
 

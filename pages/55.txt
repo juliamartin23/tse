@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 https://thayer.github.io/engs50/Resources/
 2
 16588
+=======
+https://thayer.github.io/engs50/Notes/c1/activity.html
+3
+3621
+>>>>>>> 384f1e5bd435ca42f571d4856ac38fdd79014ca8
 <!DOCTYPE html>
 <html>
 
@@ -9,13 +15,21 @@ https://thayer.github.io/engs50/Resources/
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
+<<<<<<< HEAD
   <title>Resources</title>
+=======
+  <title>Activity - C program</title>
+>>>>>>> 384f1e5bd435ca42f571d4856ac38fdd79014ca8
   <meta name="description" content="In Engs 50 you will learn how to design & build large, reliable, maintainable, and understandable software systems.  In the process you will learn to program in C with Unix development tools.
 ">
 
   <link rel="shortcut icon" href="/engs50/50.png" />
   <link rel="stylesheet" href="/engs50/css/main.css">
+<<<<<<< HEAD
   <link rel="canonical" href="/engs50/Resources/">
+=======
+  <link rel="canonical" href="/engs50/Notes/c1/activity.html">
+>>>>>>> 384f1e5bd435ca42f571d4856ac38fdd79014ca8
 </head>
 
 
@@ -44,6 +58,7 @@ https://thayer.github.io/engs50/Resources/
         <article class="post">
 
   <header class="post-header">
+<<<<<<< HEAD
     <h1 class="post-title">Resources</h1>
   </header>
 
@@ -202,6 +217,47 @@ Installation is simple; this link has instructions for installing and using XQua
 
 <p>Remember that we’re not suggesting you buy all these books.
 The text by Harbison and Steele is highly recommended for this course and may be in local bookstores.</p>
+=======
+    <h1 class="post-title">Activity - C program</h1>
+  </header>
+
+  <div class="post-content">
+    <h2 id="goals">Goals</h2>
+
+<p>To experience use of <code class="highlighter-rouge">mygcc</code> to compile C programs, to use editor to edit a C program, and to write some simple C code.</p>
+
+<h2 id="tasks">Tasks</h2>
+
+<ul>
+  <li>Copy the <code class="highlighter-rouge">guessprime</code> program into your own directory, and compile it:</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> ~/cs50
+cp ~cs50/examples/guessprime4.c guessprime.c
+mygcc <span class="nt">-o</span> guessprime guessprime.c
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p>Try running the program a few times.</p>
+  </li>
+  <li>
+    <p>Edit <code class="highlighter-rouge">guessprime.c</code> to add and call a new function:</p>
+  </li>
+</ul>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="c1">// print the list of prime numbers from min to max inclusive
+</span>    <span class="kt">void</span> <span class="n">listPrimes</span><span class="p">(</span><span class="k">const</span> <span class="kt">int</span> <span class="n">min</span><span class="p">,</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">max</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>and arrange to call it when the player gets the right answer:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Enter a prime between 1-100: 31
+You win! here's a list of primes in [1..100]:
+2 3 5 7 11 13 17 19 23 29 31 37 41 43 47 53 59 61 67 71 73 79 83 89 97 
+</code></pre></div></div>
+
+>>>>>>> 384f1e5bd435ca42f571d4856ac38fdd79014ca8
 
   </div>
 

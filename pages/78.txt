@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 https://thayer.github.io/engs50/Labs/Lab6/
 3
 25108
+=======
+https://thayer.github.io/engs50/Notes/indexer/activity.html
+3
+2464
+>>>>>>> 384f1e5bd435ca42f571d4856ac38fdd79014ca8
 <!DOCTYPE html>
 <html>
 
@@ -9,13 +15,21 @@ https://thayer.github.io/engs50/Labs/Lab6/
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
+<<<<<<< HEAD
   <title>Lab 6 - Querier</title>
+=======
+  <title>Activity - Design of TSE Indexer</title>
+>>>>>>> 384f1e5bd435ca42f571d4856ac38fdd79014ca8
   <meta name="description" content="In Engs 50 you will learn how to design & build large, reliable, maintainable, and understandable software systems.  In the process you will learn to program in C with Unix development tools.
 ">
 
   <link rel="shortcut icon" href="/engs50/50.png" />
   <link rel="stylesheet" href="/engs50/css/main.css">
+<<<<<<< HEAD
   <link rel="canonical" href="/engs50/Labs/Lab6/">
+=======
+  <link rel="canonical" href="/engs50/Notes/indexer/activity.html">
+>>>>>>> 384f1e5bd435ca42f571d4856ac38fdd79014ca8
 </head>
 
 
@@ -44,6 +58,7 @@ https://thayer.github.io/engs50/Labs/Lab6/
         <article class="post">
 
   <header class="post-header">
+<<<<<<< HEAD
     <h1 class="post-title">Lab 6 - Querier</h1>
   </header>
 
@@ -318,6 +333,23 @@ Squash that character <code class="highlighter-rouge">*rest</code> with a null, 
 
 <p>You may find the functions <code class="highlighter-rouge">isalpha()</code> and <code class="highlighter-rouge">isspace()</code> useful; read the man page.
 They are from the <code class="highlighter-rouge">ctype.h</code> package.</p>
+=======
+    <h1 class="post-title">Activity - Design of TSE Indexer</h1>
+  </header>
+
+  <div class="post-content">
+    <ol>
+  <li>
+    <p>Review the <a href="/engs50/Labs/Lab5/REQUIREMENTS.html">Indexer Requirements spec</a>.</p>
+  </li>
+  <li>
+    <p>What data structure would be a good representation for the <em>inverted index</em>?
+An inverted index allows maps from <em>words</em> to <em>document IDs</em> - given a word, which documents contain that word?
+And for each document, you’ll want to know how many times did that word appear in that document.</p>
+  </li>
+</ol>
+
+>>>>>>> 384f1e5bd435ca42f571d4856ac38fdd79014ca8
 
   </div>
 

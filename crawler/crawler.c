@@ -1,13 +1,3 @@
-/* crawler.c --- 
- * 
- * 
- * Author: Ezgi Okutan (and only Ezgi)
- * Created: Sun Oct 17 01:17:54 2021 (-0400)
- * Version: 
- * 
- * Description: 
- * 
- */
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -26,10 +16,10 @@
 //	printf("Url : %s\n", webpage_getURL(p));
 //}
 
-// static void printelement(void *cp) {
-// 	char* p = (char *)cp;
-// 	printf("Url : %s\n", p);                                                                
-// }
+static void printelement(void *cp) {
+ 	char* p = (char *)cp;
+ 	printf("Url : %s\n", p);                                                                
+ }
 
 bool searchfn (void *elementp, const void *keyp){
 	char* urlptr = (char*)elementp;
@@ -65,7 +55,7 @@ int32_t pagesave(webpage_t *pagep, int id, char *dirname){
 
 
 int main(int argc, char *argv[]){
-	webpage_t *p1;
+	//webpage_t *p1;
 	queue_t *qt = qopen();
 	hashtable_t *table = hopen(TABLESIZE); 
 	
@@ -88,7 +78,7 @@ int main(int argc, char *argv[]){
 	}
 
 
- 		char *resulturl;
+ 		
 		int id = 1; 
 		int pos = 0; 
 		qput(qt, page); 
@@ -106,9 +96,10 @@ int main(int argc, char *argv[]){
 				pagesave(currpage, id, pagedir); 
 				id++;
 			
+				//check if currpage is in hashtable 
 				webpage_t* nextpage;
-			//check if currpage is in hashtable 
-		
+				char *resulturl;
+
 				int currdepth = webpage_getDepth(currpage) + 1; 
 
 				while ((pos = webpage_getNextURL(currpage, pos, &resulturl)) > 0 && currdepth <= maxdepth){	
@@ -118,15 +109,11 @@ int main(int argc, char *argv[]){
 					printf("Found url: %s", resulturl);
 					if (intern) {
 						printf(" -internal\n");
-						//qput(qt, (void *)nextpage);
 						if (!hsearch(table,searchfn,(void *)resulturl, strlen(resulturl))) {
-							if (resulturl != seedurl) {
-								qput(qt, (void *)nextpage);
-							}
+							qput(qt, (void *)nextpage);
 							hput(table,(void *)resulturl, (void *)resulturl, strlen(resulturl));
 							//printf("hput happened");	
 							//printurl((void*)nextpage);
-							//							free(resulturl);
 						}
 						else {
 							free(resulturl);
@@ -134,35 +121,31 @@ int main(int argc, char *argv[]){
 						}
 					}
 					else {
-						printf(" -external\n");	 
+						printf(" -external\n");
+						//free(resulturl);
 						webpage_delete(nextpage);
-						
 					}
-					//					free(resulturl);
+
 				}
-			  	free(resulturl);
-			}
+				free(resulturl);
+			} 
 			webpage_delete(currpage);
- 			free(resulturl);
+			
 		}
 		
-		//happly(table, printelement);
-
-		//free(seedurl);
 		
+		//do {
+		  // 	p1 = (webpage_t*)qget(qt);
+		  	//if (p1!=NULL)
+		  	//	webpage_delete((void*)p1);
+		  //} while(p1!=NULL);
 		
-		do {
-		   	p1 = (webpage_t*)qget(qt);
-		   if (p1!=NULL)
-		  		webpage_delete((void*)p1);
-		 } while(p1!=NULL);
-		
-		
+		// happly(table, free);
 		qclose(qt);
 		hclose(table);
 		
 		if(qt==NULL){
-			exit(EXIT_SUCCESS);
+	 		exit(EXIT_SUCCESS);
 		}
-	exit(EXIT_FAILURE);
+	exit(EXIT_SUCCESS);
 }

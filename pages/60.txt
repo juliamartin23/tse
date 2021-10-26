@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 https://thayer.github.io/engs50/Examples/
 2
 13069
+=======
+https://thayer.github.io/engs50/Notes/modules/activity.html
+3
+3263
+>>>>>>> 384f1e5bd435ca42f571d4856ac38fdd79014ca8
 <!DOCTYPE html>
 <html>
 
@@ -9,13 +15,21 @@ https://thayer.github.io/engs50/Examples/
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
+<<<<<<< HEAD
   <title>Examples</title>
+=======
+  <title>Activity - Modular data structures in C</title>
+>>>>>>> 384f1e5bd435ca42f571d4856ac38fdd79014ca8
   <meta name="description" content="In Engs 50 you will learn how to design & build large, reliable, maintainable, and understandable software systems.  In the process you will learn to program in C with Unix development tools.
 ">
 
   <link rel="shortcut icon" href="/engs50/50.png" />
   <link rel="stylesheet" href="/engs50/css/main.css">
+<<<<<<< HEAD
   <link rel="canonical" href="/engs50/Examples/">
+=======
+  <link rel="canonical" href="/engs50/Notes/modules/activity.html">
+>>>>>>> 384f1e5bd435ca42f571d4856ac38fdd79014ca8
 </head>
 
 
@@ -44,6 +58,7 @@ https://thayer.github.io/engs50/Examples/
         <article class="post">
 
   <header class="post-header">
+<<<<<<< HEAD
     <h1 class="post-title">Examples</h1>
   </header>
 
@@ -1135,6 +1150,34 @@ https://thayer.github.io/engs50/Examples/
     
 
 </ul>
+=======
+    <h1 class="post-title">Activity - Modular data structures in C</h1>
+  </header>
+
+  <div class="post-content">
+    <p>Grab my classroom demo code,</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd ~/cs50
+cp ~cs50/demo/names9.c .
+cp ~cs50/demo/readlinep.[ch] .
+</code></pre></div></div>
+
+<p>and <strong>work in pairs</strong> to modify the <em>bag</em> module so it keeps track of the number of items in the bag.
+You’ll need to modify</p>
+
+<ul>
+  <li><code class="highlighter-rouge">struct bag</code>  (to include a counter)</li>
+  <li><code class="highlighter-rouge">bag_new</code>     (to initialize the counter)</li>
+  <li><code class="highlighter-rouge">bag_insert</code>  (to increment the counter)</li>
+  <li><code class="highlighter-rouge">bag_extract</code> (to decrement the counter)</li>
+  <li><code class="highlighter-rouge">bag_print</code>   (so you can print the counter!)</li>
+</ul>
+
+<h4 id="compiling">Compiling</h4>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mygcc</span> <span class="n">names</span><span class="p">.</span><span class="n">c</span> <span class="n">readlinep</span><span class="p">.</span><span class="n">c</span> <span class="o">-</span><span class="n">o</span> <span class="n">names</span>
+</code></pre></div></div>
+>>>>>>> 384f1e5bd435ca42f571d4856ac38fdd79014ca8
 
   </div>
 

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 https://thayer.github.io/engs50/Resources/
 2
 16588
@@ -232,3 +233,15 @@ The text by Harbison and Steele is highly recommended for this course and may be
   </body>
 
 </html>
+=======
+https://thayer.github.io/engs50/Reading
+3
+162
+<html>
+<head><title>301 Moved Permanently</title></head>
+<body>
+<center><h1>301 Moved Permanently</h1></center>
+<hr><center>nginx</center>
+</body>
+</html>
+>>>>>>> 384f1e5bd435ca42f571d4856ac38fdd79014ca8

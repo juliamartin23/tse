@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 https://thayer.github.io/engs50/Labs/
 2
 2576
+=======
+https://thayer.github.io/engs50/Notes/makefiles/activity.html
+3
+2563
+>>>>>>> 384f1e5bd435ca42f571d4856ac38fdd79014ca8
 <!DOCTYPE html>
 <html>
 
@@ -9,13 +15,21 @@ https://thayer.github.io/engs50/Labs/
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
+<<<<<<< HEAD
   <title>Labs</title>
+=======
+  <title>Activity - Makefiles</title>
+>>>>>>> 384f1e5bd435ca42f571d4856ac38fdd79014ca8
   <meta name="description" content="In Engs 50 you will learn how to design & build large, reliable, maintainable, and understandable software systems.  In the process you will learn to program in C with Unix development tools.
 ">
 
   <link rel="shortcut icon" href="/engs50/50.png" />
   <link rel="stylesheet" href="/engs50/css/main.css">
+<<<<<<< HEAD
   <link rel="canonical" href="/engs50/Labs/">
+=======
+  <link rel="canonical" href="/engs50/Notes/makefiles/activity.html">
+>>>>>>> 384f1e5bd435ca42f571d4856ac38fdd79014ca8
 </head>
 
 
@@ -44,6 +58,7 @@ https://thayer.github.io/engs50/Labs/
         <article class="post">
 
   <header class="post-header">
+<<<<<<< HEAD
     <h1 class="post-title">Labs</h1>
   </header>
 
@@ -63,6 +78,25 @@ https://thayer.github.io/engs50/Labs/
 
 <p>Please follow the <a href="/engs50/Resources/CodingStyle.html">CS50 coding style</a>
 in C assignments.</p>
+=======
+    <h1 class="post-title">Activity - Makefiles</h1>
+  </header>
+
+  <div class="post-content">
+    <p>Grab my classroom demo code,</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd ~/cs50
+cp -r ~cs50/demo demo
+</code></pre></div></div>
+
+<p>and <strong>work in pairs</strong> to modify the <em>Makefile</em> so it adds a phony <em>test</em> target, enabling you to later type</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>make test
+</code></pre></div></div>
+
+<p>and see it <em>build names</em> (if necessary) and <em>run a test</em> of the <code class="highlighter-rouge">names</code> program.</p>
+
+>>>>>>> 384f1e5bd435ca42f571d4856ac38fdd79014ca8
 
   </div>
 

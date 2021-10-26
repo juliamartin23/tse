@@ -13,7 +13,7 @@
 #include <curl/curl.h>
 
 /***********************************************************************/
-/* webpage_t: opaque struct to represent a web page, and its contents.
+/* webpage_t: opaque struct to reprent a web page, and its contents.
  */
 typedef struct webpage webpage_t;
 

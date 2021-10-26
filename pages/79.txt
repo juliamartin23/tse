@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 https://thayer.github.io/engs50/Resources/CodingStyle.html
 3
 24359
+=======
+https://thayer.github.io/engs50/Notes/iterators/activity.html
+3
+2594
+>>>>>>> 384f1e5bd435ca42f571d4856ac38fdd79014ca8
 <!DOCTYPE html>
 <html>
 
@@ -9,13 +15,21 @@ https://thayer.github.io/engs50/Resources/CodingStyle.html
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
+<<<<<<< HEAD
   <title>Programming Style</title>
+=======
+  <title>Activity - Set intersection</title>
+>>>>>>> 384f1e5bd435ca42f571d4856ac38fdd79014ca8
   <meta name="description" content="In Engs 50 you will learn how to design & build large, reliable, maintainable, and understandable software systems.  In the process you will learn to program in C with Unix development tools.
 ">
 
   <link rel="shortcut icon" href="/engs50/50.png" />
   <link rel="stylesheet" href="/engs50/css/main.css">
+<<<<<<< HEAD
   <link rel="canonical" href="/engs50/Resources/CodingStyle.html">
+=======
+  <link rel="canonical" href="/engs50/Notes/iterators/activity.html">
+>>>>>>> 384f1e5bd435ca42f571d4856ac38fdd79014ca8
 </head>
 
 
@@ -44,6 +58,7 @@ https://thayer.github.io/engs50/Resources/CodingStyle.html
         <article class="post">
 
   <header class="post-header">
+<<<<<<< HEAD
     <h1 class="post-title">Programming Style</h1>
   </header>
 
@@ -357,6 +372,27 @@ likely need to add other options to these; for example, if you use
 mathematics functions, you need to <code class="highlighter-rouge">#include &lt;math.h&gt;</code> in your C
 program and add <code class="highlighter-rouge">-lm</code> to the command line.</p>
 
+=======
+    <h1 class="post-title">Activity - Set intersection</h1>
+  </header>
+
+  <div class="post-content">
+    <ol>
+  <li>
+    <p>Review <a href="/engs50/Examples/set_iterate2.c">set_iterate2</a>.
+(Note also <a href="/engs50/Examples/set_iterate.makefile">set_iterate.makefile</a>.)
+It shows how to construct the <em>union</em> of two sets.</p>
+  </li>
+  <li>
+    <p>Discuss how you would construct the <em>intersection</em> of two sets - it’s very analogous, but a bit trickier.
+(I found that the<code class="highlighter-rouge">itemfunc</code> needed a pointer to each set, not just the one set, as in the example above.)</p>
+  </li>
+</ol>
+
+<blockquote>
+  <p>You’ll need this for Lab 6!</p>
+</blockquote>
+>>>>>>> 384f1e5bd435ca42f571d4856ac38fdd79014ca8
 
   </div>
 

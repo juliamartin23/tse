@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 https://thayer.github.io/engs50/Labs/
 2
 2576
+=======
+https://thayer.github.io/engs50/Notes/bash3/activity.html
+3
+2737
+>>>>>>> 384f1e5bd435ca42f571d4856ac38fdd79014ca8
 <!DOCTYPE html>
 <html>
 
@@ -9,13 +15,21 @@ https://thayer.github.io/engs50/Labs/
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
+<<<<<<< HEAD
   <title>Labs</title>
+=======
+  <title>Activity - shell script</title>
+>>>>>>> 384f1e5bd435ca42f571d4856ac38fdd79014ca8
   <meta name="description" content="In Engs 50 you will learn how to design & build large, reliable, maintainable, and understandable software systems.  In the process you will learn to program in C with Unix development tools.
 ">
 
   <link rel="shortcut icon" href="/engs50/50.png" />
   <link rel="stylesheet" href="/engs50/css/main.css">
+<<<<<<< HEAD
   <link rel="canonical" href="/engs50/Labs/">
+=======
+  <link rel="canonical" href="/engs50/Notes/bash3/activity.html">
+>>>>>>> 384f1e5bd435ca42f571d4856ac38fdd79014ca8
 </head>
 
 
@@ -44,6 +58,7 @@ https://thayer.github.io/engs50/Labs/
         <article class="post">
 
   <header class="post-header">
+<<<<<<< HEAD
     <h1 class="post-title">Labs</h1>
   </header>
 
@@ -63,6 +78,27 @@ https://thayer.github.io/engs50/Labs/
 
 <p>Please follow the <a href="/engs50/Resources/CodingStyle.html">CS50 coding style</a>
 in C assignments.</p>
+=======
+    <h1 class="post-title">Activity - shell script</h1>
+  </header>
+
+  <div class="post-content">
+    <p>Read <a href="/engs50/Examples/backup-diff.sh">backup-diff.sh</a>.</p>
+
+<p>What does it do?</p>
+
+<p>Now, make a copy for yourself,</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cp ~cs50/examples/backup-diff.sh <span class="nb">.</span>
+</code></pre></div></div>
+
+<p>or, to work on your laptop,</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scp username@flume.cs.dartmouth.edu:~cs50/examples/backup-diff.sh <span class="nb">.</span>
+</code></pre></div></div>
+
+<p>and modify your copy so it <strong>exits with zero status when there are no differences, and non-zero status when there are any missing backups or differing files.</strong></p>
+>>>>>>> 384f1e5bd435ca42f571d4856ac38fdd79014ca8
 
   </div>
 

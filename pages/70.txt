@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 https://thayer.github.io/engs50/Reading/
 3
 9015
@@ -178,3 +179,15 @@ by <a href="http://programmer.97things.oreilly.com/wiki/index.php/Comment_Only_W
   </body>
 
 </html>
+=======
+https://thayer.github.io/engs50/Labs/Lab3
+3
+162
+<html>
+<head><title>301 Moved Permanently</title></head>
+<body>
+<center><h1>301 Moved Permanently</h1></center>
+<hr><center>nginx</center>
+</body>
+</html>
+>>>>>>> 384f1e5bd435ca42f571d4856ac38fdd79014ca8

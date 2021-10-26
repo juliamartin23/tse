@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 https://thayer.github.io/engs50/Labs/
 2
 2576
+=======
+https://thayer.github.io/engs50/Notes/memory/activity.html
+3
+4902
+>>>>>>> 384f1e5bd435ca42f571d4856ac38fdd79014ca8
 <!DOCTYPE html>
 <html>
 
@@ -9,13 +15,21 @@ https://thayer.github.io/engs50/Labs/
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
+<<<<<<< HEAD
   <title>Labs</title>
+=======
+  <title>Activity - pointers</title>
+>>>>>>> 384f1e5bd435ca42f571d4856ac38fdd79014ca8
   <meta name="description" content="In Engs 50 you will learn how to design & build large, reliable, maintainable, and understandable software systems.  In the process you will learn to program in C with Unix development tools.
 ">
 
   <link rel="shortcut icon" href="/engs50/50.png" />
   <link rel="stylesheet" href="/engs50/css/main.css">
+<<<<<<< HEAD
   <link rel="canonical" href="/engs50/Labs/">
+=======
+  <link rel="canonical" href="/engs50/Notes/memory/activity.html">
+>>>>>>> 384f1e5bd435ca42f571d4856ac38fdd79014ca8
 </head>
 
 
@@ -44,6 +58,7 @@ https://thayer.github.io/engs50/Labs/
         <article class="post">
 
   <header class="post-header">
+<<<<<<< HEAD
     <h1 class="post-title">Labs</h1>
   </header>
 
@@ -63,6 +78,44 @@ https://thayer.github.io/engs50/Labs/
 
 <p>Please follow the <a href="/engs50/Resources/CodingStyle.html">CS50 coding style</a>
 in C assignments.</p>
+=======
+    <h1 class="post-title">Activity - pointers</h1>
+  </header>
+
+  <div class="post-content">
+    <p>Review the example <a href="/engs50/Examples/stringcopy.c">stringcopy.c</a>, excerpted below; it is buggy (and triggers a <em>segmentation fault</em> when run on my Mac!).</p>
+
+<ul>
+  <li>Explain the pointer notation used in the parameters.</li>
+  <li>Explain the pointer notation used in the conditional.</li>
+  <li>Explain what happens inside the loop.</li>
+  <li>Why is there an assignment after the loop?</li>
+  <li>Where is the bug in <code class="highlighter-rouge">main()</code>?</li>
+  <li>What might go wrong inside <code class="highlighter-rouge">stringcopy</code>?</li>
+</ul>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="kt">char</span> <span class="o">*</span><span class="n">src</span> <span class="o">=</span> <span class="s">"Computer Science 50"</span><span class="p">;</span>
+  <span class="kt">char</span> <span class="o">*</span><span class="n">dest</span><span class="o">=</span><span class="s">"abc"</span><span class="p">;</span> 
+
+  <span class="c1">// copy src to dest and print them out
+</span>  <span class="n">stringcopy</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">dest</span><span class="p">);</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">"src  = '%s'</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">src</span><span class="p">);</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">"dest = '%s'</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">dest</span><span class="p">);</span>
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/* stringcopy - copy string from source sp to destination dp */</span>
+<span class="kt">void</span> <span class="nf">stringcopy</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">sp</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">dp</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="k">while</span> <span class="p">(</span><span class="o">*</span><span class="n">sp</span> <span class="o">!=</span> <span class="sc">'\0'</span><span class="p">)</span> <span class="p">{</span>
+    <span class="o">*</span><span class="n">dp</span><span class="o">++</span> <span class="o">=</span> <span class="o">*</span><span class="n">sp</span><span class="o">++</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="o">*</span><span class="n">dp</span> <span class="o">=</span> <span class="sc">'\0'</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+>>>>>>> 384f1e5bd435ca42f571d4856ac38fdd79014ca8
 
   </div>
 
