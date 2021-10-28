@@ -114,9 +114,10 @@ void sumwords(void *elementp) {
 	qapply(q, sumq); 
 }
 							
-int main(void){
+int main(int argc, char *argv[]){
 
-	int id=1;
+	int loop = 1; 
+	int id= atoi(argv[1]);
 	char* dirnm= "pages-depth3";
  	webpage_t *page;
 	char *word;
@@ -124,8 +125,8 @@ int main(void){
 	hashtable_t *htable = hopen(TABLESIZE); 
 	
 
-	//while((page=pageload(id, dirnm)) != NULL) { 
-		page=pageload(id,dirnm); 
+	while(loop <= id) { 
+		page=pageload(loop,dirnm); 
 		int pos=0;
 		while((pos=webpage_getNextWord(page, pos, &word))>0) {
 			//printf("id: %d\n", id);
@@ -144,7 +145,7 @@ int main(void){
 					//printf("word not in hash\n");
 					helement_t *hel = make_hel(word);
 					qt = qopen(); 
-					qelement_t *qel = make_qel(id, 1); 
+					qelement_t *qel = make_qel(loop, 1); 
 					qput(qt, qel);  
 					//qapply(qt, printel);
 					hel->qt = qt; 
@@ -161,14 +162,14 @@ int main(void){
 					
 					qelement_t *qel; 
 					//if current doc id already exists in the queue, just increment the count 
-					if((qel = qsearch(qt, searchfn, &id)) != NULL ) { 
+					if((qel = qsearch(qt, searchfn, &loop)) != NULL ) { 
 						qel->count = qel->count+1; 
 						//printf("word in hash, id in queue, just increment\n");
 					
 					}
 					// if there is no queue element with curent doc id, make a new one 
 					else{
-						qelement_t *qel = make_qel(id, 1); 
+						qelement_t *qel = make_qel(loop, 1); 
 						qput(qt, qel); 
 						//printf("in hash, but no doc id in queue\n");
 					}
@@ -179,10 +180,10 @@ int main(void){
 		
 		}
 		//printf("incrementing id\n");
-		//id++; 
+		loop++; 
         webpage_delete(page);
 		//free(word);
-	
+	}
 	happly(htable, sumwords); 
 
 	happly(htable, freeq);
