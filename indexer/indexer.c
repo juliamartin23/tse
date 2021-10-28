@@ -84,17 +84,17 @@ bool searchfn (void *elementp, const void *keyp){
 // 	printf("qel: %d\n %d\n", qp->documentid, qp->count); 
 // }
 
-// void freeq(void *elementp){
-// 	qelement_t* qel = (qelement_t *)elementp;
-// 	qclose(qel); 
-
-// }
+void freeq(void *elementp){
+ 	helement_t* hel = (helement_t *)elementp;
+ 	qclose(hel->qt); 
+}
 // void freeh(void *elementp){
 // 	helement_t* hel = (helement_t *)elementp; 
 // 	queue_t *q = (queue_t *) hel->qt; 
 
 // 	qapply(q, freeq); 
 // }
+
 
 
 void sumq(void *elementp){
@@ -117,7 +117,7 @@ int main(void){
 
 	int id=1;
 	char* dirnm= "pages-depth3";
- 	webpage_t *page; 
+ 	webpage_t *page;
 	int pos=0;
 	char *word;
 
@@ -178,7 +178,7 @@ int main(void){
 				}
 
 			}
-			//free(word);
+			free(word);
 			//webpage_delete(page); 
 		
 		}
@@ -190,19 +190,11 @@ int main(void){
 	happly(htable, sumwords); 
 
 	id = 1; 
-	while((page=pageload(id, dirnm)) != NULL) { 
-		while((pos=webpage_getNextWord(page, pos, &word))>0) {
+	
 
-			helement_t *hel = hsearch(htable, searchpage, word, strlen(word)); 
-			queue_t *qt = hel->qt; 
-			free(word); 
-			qclose(qt); 
-		}
-		id++; 
-		//webpage_delete(page); 
-	}
+	happly(htable, freeq);
 
-	hclose(htable); 
+	//hclose(htable); 
 
 	printf("SUM: %d\n", sum); 
 	hclose(htable); 
