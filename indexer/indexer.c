@@ -66,7 +66,7 @@ bool NormalizeWord(char *word){
 
 bool searchpage (void *elementp, const void *keyp){
 	helement_t* element = elementp; 
-	printf("word: %s\n", element->word); 
+	//printf("word: %s\n", element->word); 
 	if(strcmp(element->word, keyp) == 0) {
 		return true;
 	} 
@@ -84,11 +84,11 @@ bool searchfn (void *elementp, const void *keyp){
 // 	printf("qel: %d\n %d\n", qp->documentid, qp->count); 
 // }
 
-// void freeq(void *elementp){
-// 	qelement_t* qel = (qelement_t *)elementp;
-// 	qclose(qel); 
 
-// }
+void freeq(void *elementp){
+ 	helement_t* hel = (helement_t *)elementp;
+ 	qclose(hel->qt); 
+}
 // void freeh(void *elementp){
 // 	helement_t* hel = (helement_t *)elementp; 
 // 	queue_t *q = (queue_t *) hel->qt; 
@@ -97,10 +97,11 @@ bool searchfn (void *elementp, const void *keyp){
 // }
 
 
+
 void sumq(void *elementp){
 	qelement_t* qel = (qelement_t *)elementp; 
 	sum = sum + qel->count; 
-	printf("this sum: %d \n", sum); 
+	//printf("this sum: %d \n", sum); 
 	//qclose(qel); 
 	//free(qel);
 
@@ -113,29 +114,26 @@ void sumwords(void *elementp) {
 	qapply(q, sumq); 
 }
 							
-int main(void){
+int main(int argc, char *argv[]){
 
-	int id=1;
+	int loop = 1; 
+	int id= atoi(argv[1]);
 	char* dirnm= "pages-depth3";
- 	webpage_t *page; 
-	int pos=0;
+ 	webpage_t *page;
 	char *word;
 
 	hashtable_t *htable = hopen(TABLESIZE); 
 	
 
-	while((page=pageload(id, dirnm)) != NULL) { 
+	while(loop <= id) { 
+		page=pageload(loop,dirnm); 
+		int pos=0;
 		while((pos=webpage_getNextWord(page, pos, &word))>0) {
-			printf("id: %d\n", id);
-			char* url = webpage_getURL(page); 
-			int depth = webpage_getDepth(page);  
-			int len = webpage_getHTMLlen(page); 
+			//printf("id: %d\n", id);
 			queue_t *qt;
 
-			printf("%s\n%d\n%d\n", url, depth, len); 
-
 			if (strlen(word) > 2 && NormalizeWord(word)) {
-				printf("%s\n", word);
+				//printf("%s\n", word);
 
 				if(!hsearch(htable,searchpage, word, strlen(word))){
 					//make new hash element with "word"
@@ -144,10 +142,10 @@ int main(void){
 					//qput this queue element into the queue 
 					//make queue element next = NULL  
 					//put new hash element into hash table 
-					printf("word not in hash\n");
+					//printf("word not in hash\n");
 					helement_t *hel = make_hel(word);
 					qt = qopen(); 
-					qelement_t *qel = make_qel(id, 1); 
+					qelement_t *qel = make_qel(loop, 1); 
 					qput(qt, qel);  
 					//qapply(qt, printel);
 					hel->qt = qt; 
@@ -164,45 +162,33 @@ int main(void){
 					
 					qelement_t *qel; 
 					//if current doc id already exists in the queue, just increment the count 
-					if((qel = qsearch(qt, searchfn, &id)) != NULL ) { 
+					if((qel = qsearch(qt, searchfn, &loop)) != NULL ) { 
 						qel->count = qel->count+1; 
-						printf("word in hash, id in queue, just increment\n");
+						//printf("word in hash, id in queue, just increment\n");
 					
 					}
 					// if there is no queue element with curent doc id, make a new one 
 					else{
-						qelement_t *qel = make_qel(id, 1); 
+						qelement_t *qel = make_qel(loop, 1); 
 						qput(qt, qel); 
-						printf("in hash, but no doc id in queue\n");
+						//printf("in hash, but no doc id in queue\n");
 					}
 				}
-
 			}
-			//free(word);
+			free(word);
 			//webpage_delete(page); 
 		
 		}
 		//printf("incrementing id\n");
-		id++; 
+		loop++; 
         webpage_delete(page);
 		//free(word);
-	} 
+	}
 	happly(htable, sumwords); 
 
-	id = 1; 
-	while((page=pageload(id, dirnm)) != NULL) { 
-		while((pos=webpage_getNextWord(page, pos, &word))>0) {
+	happly(htable, freeq);
 
-			helement_t *hel = hsearch(htable, searchpage, word, strlen(word)); 
-			queue_t *qt = hel->qt; 
-			free(word); 
-			qclose(qt); 
-		}
-		id++; 
-		//webpage_delete(page); 
-	}
-
-	hclose(htable); 
+	//hclose(htable); 
 
 	printf("SUM: %d\n", sum); 
 	hclose(htable); 
