@@ -15,11 +15,13 @@
 #include <pageio.h>
 #include <hash.h>
 #include <queue.h> 
+#include <indexio.h>
 
 #define TABLESIZE 10 
 #define MAXREG 100 
 
 static int sum = 0; 
+
 
 typedef struct helement { 
 	char word[MAXREG]; 
@@ -79,22 +81,16 @@ bool searchfn (void *elementp, const void *keyp){
     return((qp->documentid) == *(int*) key);
 }
 
-// static void printel(queue_t *p) {
-// 	queue_t* qp = (queue_t *) p; 
-// 	printf("qel: %d\n %d\n", qp->documentid, qp->count); 
-// }
+static void printel(void *p) {
+	helement_t* hel = (helement_t *) p; 
+	printf("word: %s\n", hel->word); 
+}
 
 
 void freeq(void *elementp){
  	helement_t* hel = (helement_t *)elementp;
  	qclose(hel->qt); 
 }
-// void freeh(void *elementp){
-// 	helement_t* hel = (helement_t *)elementp; 
-// 	queue_t *q = (queue_t *) hel->qt; 
-
-// 	qapply(q, freeq); 
-// }
 
 
 
@@ -184,14 +180,29 @@ int main(int argc, char *argv[]){
         webpage_delete(page);
 		//free(word);
 	}
-	happly(htable, sumwords); 
+	happly(htable, sumwords);
+	printf("SUM: %d\n", sum);
 
-	happly(htable, freeq);
+	indexsave(htable, "indexer"); 
+	happly(htable, freeq); 
+	hclose(htable); 
+
+	//hashtable_t *htable2 = hopen(TABLESIZE); 
+	hashtable_t *htable2 = indexload("indexnm");
+	happly(htable2, printel);
+
+	printf("loaded table\n");
+	//theres some sort of seg fault happening
+	//right here when you try to resave
+	//indexsave(htable2, "indexer");
+	
+	//happly(htable2, freeq);
+	//hclose(htable2);
+	return 0;
+	//}
 
 	//hclose(htable); 
 
-	printf("SUM: %d\n", sum); 
-	hclose(htable); 
 
-	return 0;
+	//exit(EXIT_FAILURE);
 }

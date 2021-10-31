@@ -16,6 +16,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include <sys/stat.h>
+#include <inttypes.h>
 
 #include <pageio.h>
 #include <webpage.h>
@@ -41,4 +42,5 @@ int32_t indexsave(hashtable_t *htp, char *dirname);
  *
  * returns: non-NULL for success; NULL otherwise
  */
-//webpage_t *pageload(int id, char *dirnm);
+
+hashtable_t* indexload(char* filename);
