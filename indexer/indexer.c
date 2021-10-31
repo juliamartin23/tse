@@ -81,18 +81,23 @@ bool searchfn (void *elementp, const void *keyp){
     return((qp->documentid) == *(int*) key);
 }
 
-static void printel(void *p) {
-	helement_t* hel = (helement_t *) p; 
-	printf("word: %s\n", hel->word); 
-}
+// static void printqel(void *p) {
+// 	qelement_t* qel = (qelement_t *) p; 
+// 	printf("id: %d, count: %d\n", qel->documentid, qel->count); 
+// }
+
+// static void printel(void *p) {
+// 	helement_t* hel = (helement_t *) p; 
+// 	printf("word: %s\n", hel->word);
+// 	queue_t *rqt = hel->qt;
+// 	qapply(rqt, printqel); 
+// }
 
 
 void freeq(void *elementp){
  	helement_t* hel = (helement_t *)elementp;
  	qclose(hel->qt); 
 }
-
-
 
 void sumq(void *elementp){
 	qelement_t* qel = (qelement_t *)elementp; 
@@ -126,7 +131,7 @@ int main(int argc, char *argv[]){
 		int pos=0;
 		while((pos=webpage_getNextWord(page, pos, &word))>0) {
 			//printf("id: %d\n", id);
-			queue_t *qt;
+			queue_t *qt; 
 
 			if (strlen(word) > 2 && NormalizeWord(word)) {
 				//printf("%s\n", word);
@@ -152,7 +157,6 @@ int main(int argc, char *argv[]){
 					//find last element of queue 
 					//add an element after last element w/the new id and new count 
 					// just make queue element b/c hash element already exists 
-
 					helement_t *hel = hsearch(htable, searchpage, word, strlen(word)); 
 					queue_t *qt = hel->qt; 
 					
@@ -183,18 +187,21 @@ int main(int argc, char *argv[]){
 	happly(htable, sumwords);
 	printf("SUM: %d\n", sum);
 
-	indexsave(htable, "indexer"); 
+	indexsave(htable, "indexnm"); 
 	happly(htable, freeq); 
 	hclose(htable); 
-
+	printf("table saved\n");
 	//hashtable_t *htable2 = hopen(TABLESIZE); 
 	hashtable_t *htable2 = indexload("indexnm");
-	happly(htable2, printel);
+
+	//printf("\nprinting table\n");
+	//happly(htable2, printel);
+
 
 	printf("loaded table\n");
 	//theres some sort of seg fault happening
 	//right here when you try to resave
-	//indexsave(htable2, "indexer");
+	indexsave(htable2, "indexnm2");
 	
 	//happly(htable2, freeq);
 	//hclose(htable2);

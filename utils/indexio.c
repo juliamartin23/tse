@@ -9,6 +9,7 @@
 #include <webpage.h>
 #include <queue.h>
 #include <indexio.h>
+#include <hash.h>
 
 #define TABLESIZE 10 
 #define MAXREG 100 
@@ -50,31 +51,27 @@ qelement_t *make_qel2(int documentid, int count){
 
 void accessQueue(void *elementp) {
     qelement_t *qel= (qelement_t*)elementp;
-	char filename[100]; 
-    sprintf(filename, "../indexer/indexnm"); 
-	//fp = fopen(filename, "a"); 
-
+	//printf("%d %d", qel->documentid, qel->count);
     fprintf(fp, " %d %d", qel->documentid, qel->count);
 }
 
 void accessIndex(void *helement){
-	char filename[100]; 
-    sprintf(filename, "../indexer/indexnm"); 
-	//fp = fopen(filename, "a"); 
     helement_t *hel= (helement_t *)helement;
     fprintf(fp, "%s", hel->word);
-	// exit(EXIT_FAILURE);
+	//printf("%s : ", hel->word);
     queue_t* q = hel->qt;
 	qapply(q, accessQueue);
     fprintf(fp, "\n");
+	//printf("\n");
 }
 
 int32_t indexsave(hashtable_t *htp, char *dirname){
 	char filename[100]; 
-
-	sprintf(filename, "../%s/indexnm", dirname); 
+	//printf("in index save function\n");
+	sprintf(filename, "../indexer/%s", dirname); 
 	fp = fopen(filename, "w"); 
 	if(fp == NULL){ 
+		printf("cant open file\n");
 		return 2; 
 	}
 	
@@ -103,7 +100,8 @@ hashtable_t* indexload(char* filename) {
 	while(!feof(fp)){
 		fgets(s, 100, fp); 
 		char* token = strtok(s, " "); //word 
-		word = token; 
+		word = token;
+		//printf("word: %s\n", word);
 
 		helement_t *hel = make_hel2(token); 
 		token = strtok(NULL, " "); //first num which is id 
@@ -112,8 +110,11 @@ hashtable_t* indexload(char* filename) {
 			id = atoi(token);  
 			token = strtok(NULL, " "); //count 
 			count = atoi(token); 
+			queue_t *qt = qopen();
 			qelement_t *qel = make_qel2(id, count); 
-			hel->qt = qel; 
+			qput(qt, qel);
+			//printf("id: %d, count: %d\n", qel->documentid, qel->count);
+			hel->qt = qt; 
 			hput(table, hel, word, strlen(word)); 
 			token = strtok(NULL, " "); // increment to next id
 		}
