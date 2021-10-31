@@ -191,7 +191,7 @@ int main(int argc, char *argv[]){
 	//hclose(htable); 
 
 	printf("SUM: %d\n", sum); 
-	hclose(htable); 
+ 	hclose(htable); 
 
 	return 0;
 }
