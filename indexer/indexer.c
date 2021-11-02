@@ -11,6 +11,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include <dirent.h>
+#include <errno.h>
+
 #include <webpage.h>
 #include <pageio.h>
 #include <hash.h>
@@ -83,14 +86,15 @@ bool searchfn (void *elementp, const void *keyp){
 
 // static void printqel(void *p) {
 // 	qelement_t* qel = (qelement_t *) p; 
-// 	printf("id: %d, count: %d\n", qel->documentid, qel->count); 
+// 	printf("id: %d, count: %d ", qel->documentid, qel->count); 
 // }
 
 // static void printel(void *p) {
 // 	helement_t* hel = (helement_t *) p; 
-// 	printf("word: %s\n", hel->word);
+// 	printf("word: %s ", hel->word);
 // 	queue_t *rqt = hel->qt;
 // 	qapply(rqt, printqel); 
+// 	printf("\n");
 // }
 
 
@@ -104,7 +108,7 @@ void sumq(void *elementp){
 	sum = sum + qel->count; 
 	//printf("this sum: %d \n", sum); 
 	//qclose(qel); 
-	//free(qel);
+	//free(qel); 
 
 }
 
@@ -118,16 +122,20 @@ void sumwords(void *elementp) {
 int main(int argc, char *argv[]){
 
 	int loop = 1; 
-	int id= atoi(argv[1]);
-	char* dirnm= "pages-depth3";
- 	webpage_t *page;
-	char *word;
+	//int id= atoi(argv[1]);
+	char* dirnm= argv[1];
+	char* indexnm = argv[2]; 
+ 	
+	FILE *fp;
+	if ((fp = fopen("%s/.crawler", dirnm) != NULL) {
 
+	}
+	 
+	webpage_t *page;
+	char *word;
 	hashtable_t *htable = hopen(TABLESIZE); 
 	
-
-	while(loop <= id) { 
-		page=pageload(loop,dirnm); 
+	while((page=pageload(loop, dirnm)) != NULL) {
 		int pos=0;
 		while((pos=webpage_getNextWord(page, pos, &word))>0) {
 			//printf("id: %d\n", id);
@@ -187,21 +195,23 @@ int main(int argc, char *argv[]){
 	happly(htable, sumwords);
 	printf("SUM: %d\n", sum);
 
-	indexsave(htable, "indexnm"); 
+	indexsave(htable, indexnm); 
 	happly(htable, freeq); 
 	hclose(htable); 
-	printf("table saved\n");
+	//printf("table saved\n");
 	//hashtable_t *htable2 = hopen(TABLESIZE); 
-	hashtable_t *htable2 = indexload("indexnm");
+	hashtable_t *htable2 = indexload(indexnm);
 
-	//printf("\nprinting table\n");
-	//happly(htable2, printel);
+	// printf("\nprinting table\n");
+	// happly(htable2, printel);
 
 
-	printf("loaded table\n");
+	//printf("loaded table\n");
 	//theres some sort of seg fault happening
 	//right here when you try to resave
 	indexsave(htable2, "indexnm2");
+	happly(htable2, freeq); 
+	hclose(htable2); 
 	
 	//happly(htable2, freeq);
 	//hclose(htable2);
