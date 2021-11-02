@@ -10,5 +10,5 @@ all:	$(OFILES)
 %.o:	%.c %.h  
 			gcc $(CFLAGS) -c $< 
 
-clean:
-				rm -f *.o 
+# clean:
+# 				rm -f *.o 
