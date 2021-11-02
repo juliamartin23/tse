@@ -43,7 +43,7 @@ webpage_t *pageload(int id, char *dirnm) {
     FILE *fp; 
     char filename[100]; 
 
-    sprintf(filename, "../%s/%d", dirnm, id); 
+    sprintf(filename, "%s/%d", dirnm, id); 
 		//    printf("filename: %s\n", filename);
     fp = fopen(filename, "r");
 		// printf("file open\n");

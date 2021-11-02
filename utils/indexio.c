@@ -92,32 +92,22 @@ hashtable_t* indexload(char* filename) {
         return NULL; 
     }
 	
-	char* word; 
 	int id;
 	int count;
 	char s[100]; 
 
-	while(!feof(fp)){
-		fgets(s, 100, fp); 
-		char* token = strtok(s, " "); //word 
-		word = token;
-		//printf("word: %s\n", word);
+	while(fscanf(fp, "%s", s) == 1) {
+	
+		helement_t *hel = make_hel2(s); 
+		queue_t *qt = qopen();
+		hel->qt = qt; 
 
-		helement_t *hel = make_hel2(token); 
-		token = strtok(NULL, " "); //first num which is id 
-
-		while(token != NULL){
-			id = atoi(token);  
-			token = strtok(NULL, " "); //count 
-			count = atoi(token); 
-			queue_t *qt = qopen();
+		while(fscanf(fp, "%d %d", &id, &count) == 2){ 
 			qelement_t *qel = make_qel2(id, count); 
 			qput(qt, qel);
 			//printf("id: %d, count: %d\n", qel->documentid, qel->count);
-			hel->qt = qt; 
-			hput(table, hel, word, strlen(word)); 
-			token = strtok(NULL, " "); // increment to next id
 		}
+		hput(table, hel, s, strlen(s)); 
 	}
 	fclose(fp); 
 	return table; 
