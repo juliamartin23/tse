@@ -11,6 +11,7 @@
 #include <queue.h>
 #include <hash.h>
 #include <indexio.h>
+#include <indexer.c>
 
 
 #define TABLESIZE 10 
@@ -18,98 +19,9 @@
 
 static int sum = 0; 
 
-typedef struct helement { 
- 	char word[MAXREG]; 
- 	queue_t *qt; 
- } helement_t; 
+typedef struct helement_t; 
 
-typedef struct qelement { 
- 	int documentid;  
- 	int count; 
- 	struct qelement *next; 
- } qelement_t; 
-
-
-helement_t *make_hel(char *word){
-	helement_t *pp = (helement_t*)malloc(sizeof(helement_t)); 
-	if(!pp){
-		printf("Error: malloc failed allocating element\n");
-		return NULL;  
-	}
-	strcpy(pp->word, word); 
-	return pp; 
-}
-
-qelement_t *make_qel(int documentid, int count){
-	qelement_t *pp = (qelement_t*)malloc(sizeof(qelement_t)); 
-	if(!pp){
-		printf("Error: malloc failed allocating element\n");
-		return NULL;  
-	}
-	pp->next = NULL; 
-	pp->count = count; 
-	pp->documentid = documentid; 
-	return pp; 
-}
-
-bool NormalizeWord(char *word){
-
-	for (int i = 0; i < strlen(word); i++) {
-		if (!isalpha(word[i])) return false;
-		word[i] = tolower(word[i]);
-	}
-	return true;
-}
-
-bool searchpage (void *elementp, const void *keyp){
-	helement_t* element = elementp; 
-	//printf("word: %s\n", element->word); 
-	if(strcmp(element->word, keyp) == 0) {
-		return true;
-	} 
-	return false; 
-}
-
-bool searchfn (void *elementp, const void *keyp){
-    qelement_t* qp = (qelement_t *)elementp;
-    int* key = (int *)keyp;
-    return((qp->documentid) == *(int*) key);
-}
-
-// static void printel(queue_t *p) {
-// 	queue_t* qp = (queue_t *) p; 
-// 	printf("qel: %d\n %d\n", qp->documentid, qp->count); 
-// }
-
-
-void freeq(void *elementp){
- 	helement_t* hel = (helement_t *)elementp;
- 	qclose(hel->qt); 
-}
-// void freeh(void *elementp){
-// 	helement_t* hel = (helement_t *)elementp; 
-// 	queue_t *q = (queue_t *) hel->qt; 
-
-// 	qapply(q, freeq); 
-// }
-
-
-
-void sumq(void *elementp){
-	qelement_t* qel = (qelement_t *)elementp; 
-	sum = sum + qel->count; 
-	//printf("this sum: %d \n", sum); 
-	//qclose(qel); 
-	//free(qel);
-
-}
-
-void sumwords(void *elementp) {
-	helement_t* hel = (helement_t *)elementp; 
-	queue_t *q = (queue_t *) hel->qt; 
-
-	qapply(q, sumq); 
-}
+typedef struct qelement_t; 
 							
 int main(int argc, char *argv[]){
 
