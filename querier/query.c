@@ -18,10 +18,10 @@
 
 #define MAXREG 100 
 
-typedef struct qelement { 
-	char* word; 
-	struct qelement *next; 
-} qelement_t; 
+// typedef struct qelement { 
+// 	char* word; 
+// 	struct qelement *next; 
+// } qelement_t; 
 
 // static void printelement(void *p){
 //     qelement_t* qp = (qelement_t *)p; 
@@ -33,48 +33,41 @@ int main(void){
 
    char str[MAXREG];
    char* token; 
-   queue_t* qt; 
+   char* printArray[MAXREG];
+      //queue_t* qt; 
 
    printf("> ");
-   //scanf("%s", str);
 
-   qt = qopen(); 
-
-   //while(fgets(str, 80, stdin) != NULL)
    fgets(str,80,stdin); 
    token = strtok(str, " "); 
-   qput(qt, token); 
-   //printf("put\n"); 
+   printArray[0] = token; 
+
+   int j = 1; 
    while(token != NULL){
       // printf("word\n");
-       qput(qt,token); 
-       token = strtok(NULL, " ");
+      printf("token: %s\n", token);
+      for(int i=0; token[i] != '\0'; i++) {
+         if (!isalpha(token[i])) {
+            printf("[invalid query]: %c\n", token[i]);
+            return 1;
+         }
+         //printf("else case\n");
+         token[i] = tolower(token[i]);
+         //printf("token[i] %c\n", token[i]);
+         printf("here\n"); 
+      }
+      //printf("token: %s\n", token);
+      printArray[j] = token; 
+      token = strtok(NULL, " ");
+      j++;
     }
-    printf("DONE\n"); 
-   //qapply(qt,printelement); 
-   
-   free(token); 
-   qclose(qt); 
+    
+    for(int k=0; k<sizeof(printArray); k++){
+      printf("THIS"); 
+      printf("%s ", printArray[k]);
+      printf("\n");
+    }
 
-    // char *input = argv[1];
-    // for(int i = 0; i < strlen(input); i++) {
-    //     if( isalpha(input[i]) ) {
-    //     return 1;
-    //     }
-    // }
-   
-
-
-
-    // while(token != NULL){
-
-    //     if(isalpha(token) == 0){
-    //         printf("[invalid query"); 
-    //     }
-    //     else{
-    //         lowerstr = tolower(atoi(token)); 
-    //         printf(">%s", lowerstr); 
-    //     }
-    //     token = strtok(NULL, " ");
-    // }
+   return 0;
+  
 }
