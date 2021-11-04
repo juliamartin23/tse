@@ -18,43 +18,34 @@
 
 #define MAXREG 100 
 
-// typedef struct qelement { 
-// 	char* word; 
-// 	struct qelement *next; 
-// } qelement_t; 
-
-// static void printelement(void *p){
-//     qelement_t* qp = (qelement_t *)p; 
-//     printf("%s", qp->word); 
-// }
-
-
 int main(void){
 
    char str[MAXREG];
    char* token; 
    char* printArray[MAXREG];
-      //queue_t* qt; 
+   char delimit[]=" \t\r\n\v\f"; 
 
    printf("> ");
 
    fgets(str,80,stdin); 
-   token = strtok(str, " "); 
-   printArray[0] = token; 
+   token = strtok(str, delimit); 
+   
+    
+   if(strcmp(token, "\n") == 0){
+      printf("> "); 
+   }
 
-   int j = 1; 
+   int j = 0; 
    while(token != NULL){
       // printf("word\n");
       printf("token: %s\n", token);
-      for(int i=0; token[i] != '\0'; i++) {
+      for(int i=0; i< strlen(token) && strcmp(&token[i],"\n") && strcmp(&token[i], "\t"); i++) {
          if (!isalpha(token[i])) {
-            printf("[invalid query]: %c\n", token[i]);
+            printf("[invalid query]");
             return 1;
          }
-         //printf("else case\n");
          token[i] = tolower(token[i]);
-         //printf("token[i] %c\n", token[i]);
-         printf("here\n"); 
+         
       }
       //printf("token: %s\n", token);
       printArray[j] = token; 
@@ -62,10 +53,8 @@ int main(void){
       j++;
     }
     
-    for(int k=0; k<sizeof(printArray); k++){
-      printf("THIS"); 
+    for(int k=0; k<j; k++){
       printf("%s ", printArray[k]);
-      printf("\n");
     }
 
    return 0;
