@@ -122,23 +122,24 @@ void sumwords(void *elementp) {
 int main(int argc, char *argv[]){
 
 	int loop = 1; 
-	//int id= atoi(argv[1]);
-	char* dirnm= argv[1];
+	int id= atoi(argv[1]);
+	char* dirnm= "../pages-depth3";//argv[1];
 	char* indexnm = argv[2]; 
  	
-	FILE *fp;
-	char filename[100];
-	sprintf(filename, "%s/.crawler",dirnm);
-	fp = fopen(filename,"r");
-	if (fp== NULL) {
-		printf("wrong dir\n");
-		exit(EXIT_FAILURE);
-	}
-	fclose(fp);
+	//FILE *fp;
+	//char filename[100];
+	//sprintf(filename, "%s/.crawler",dirnm);
+	//fp = fopen(filename,"r");
+	// if (fp== NULL) {
+	// 	printf("wrong dir\n");
+	// 	exit(EXIT_FAILURE);
+	// }
+	//fclose(fp);
 	 
 	webpage_t *page;
 	char *word;
 	hashtable_t *htable = hopen(TABLESIZE); 
+	//page=pageload(loop, dirnm);
 	
 	while((page=pageload(loop, dirnm)) != NULL) {
 		int pos=0;
