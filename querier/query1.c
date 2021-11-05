@@ -39,8 +39,10 @@ int main(void){
    while(token != NULL){
       // printf("word\n");
       //printf("token: %s\n", token);
-      for(int i=0; i< strlen(token) && strcmp(&token[i],"\n") && (token[i] != '\t'); i++) {
-        
+      for(int i=0; i< strlen(token) && strcmp(&token[i],"\n"); i++) {
+         // if(token[i] == '\t'){
+         //    printf("TAB"); 
+         // }
          if (!isalpha(token[i])) {
             printf("[invalid query]\n");
             return 1;
@@ -48,20 +50,16 @@ int main(void){
          token[i] = tolower(token[i]);
          
       }
-      if(strcmp(token, "\t")){
-          printArray[j] = token; 
-      }
-      
+      //printf("token: %s\n", token);
+      printArray[j] = token; 
       token = strtok(NULL, " ");
       j++;
     }
     
     for(int k=0; k<j; k++){
-        if(strcmp(printArray[k],"\t")){
-            printf("%s ", printArray[k]);
-        }
-      
+      printf("%s ", printArray[k]);
     }
 
    return 0;
+  
 }
