@@ -140,7 +140,7 @@ int main(void){
             //maybe i can qget them if i qput them back in?
             qelement_t *qel = qget(qt);
             qelement_t *qelFound;
-            if((qelFound = qsearch(qt, searchfn2, &qel->documentid)) != NULL ) { 
+            if((qelFound = qsearch(qIdsWithWord, searchfn2, &qel->documentid)) != NULL ) { 
                //remove the current listing
                qremove(qIdsWithWord, searchfn2, &qel->documentid);
                //re-add so you know its in the first and iteratively until this word
