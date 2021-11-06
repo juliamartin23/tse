@@ -20,6 +20,8 @@
 #include <indexio.h>
 #include <queue.h>
 #include <hash.h>
+#include <webpage.h>
+#include <pageio.h>
 
 #define MAXREG 100 
 
@@ -84,6 +86,7 @@ int rankfn(queue_t *qt){
    int id;
    int count;
    int mincount=100;
+   char *dirnm = "../pages-depth3";
 
    while((qel= qget(qt))!=NULL){
       id= qel->documentid;
@@ -94,8 +97,10 @@ int rankfn(queue_t *qt){
             mincount=qel2->count;
          }
       }
-
-      printf("rank:%d doc:%d url:\n", mincount, id);
+      webpage_t *page = pageload(id, dirnm);
+      char *url = webpage_getURL(page);
+      printf("rank: %d doc: %d url: %s\n", mincount, id, url);
+      webpage_delete(page);
    }
    return(0);
 }
@@ -147,7 +152,8 @@ int main(void) {
    
 
    //const char * printArray2[5] = {"examples", "coding", "course", "guide", "join"};
-   const char * printArray2[3] = {"arasu", "warren", "guidelines"};
+   //int len = 4;
+   const char * printArray2[2] = {"dartmouth", "college"};
    //somewhere in here we have to compare ranks.... 
    //im not exactly sure where that would be but yeah
    //char* filename= "depth0Indexnm";
@@ -157,7 +163,7 @@ int main(void) {
    queue_t *qIdsWithWord;
    queue_t *outputQueue = qopen();
 
-   for(int i=0; i<3; i++) {
+   for(int i=0; i<2; i++) {
       const char *word = printArray2[i];
       if(hsearch(htable,searchpage2, word, strlen(word))){
             helement_t *hel = hsearch(htable, searchpage2, word, strlen(word)); 
@@ -177,11 +183,11 @@ int main(void) {
             //maybe i can qget them if i qput them back in?
             qelement_t *qel;
             qelement_t *qelFound;
-            printf("i=%d\n", i);
-            printf("before first while\n");
-            qapply(qIdsWithWord,printqel);
-            printf("qt before first while\n");
-            qapply(qt,printqel); 
+            // printf("i=%d\n", i);
+            // printf("before first while\n");
+            // qapply(qIdsWithWord,printqel);
+            // printf("qt before first while\n");
+            // qapply(qt,printqel); 
             while( (qel=qget(qt))!=NULL){
                if((qelFound = qsearch(qIdsWithWord, searchfn2, &qel->documentid)) != NULL ) { 
                   //remove the current listing
