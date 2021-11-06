@@ -77,9 +77,14 @@ bool searchfn2 (void *elementp, const void *keyp){
     return((qp->documentid) == *(int*) key);
 }
 
+void freeq(void *elementp){
+ 	helement_t* hel = (helement_t *)elementp;
+ 	qclose(hel->qt); 
+}
 
 
-int rankfn(queue_t *qt){
+
+void rankfn(queue_t *qt){
    
    qelement_t * qel;
    qelement_t * qel2;
@@ -102,7 +107,7 @@ int rankfn(queue_t *qt){
       printf("rank: %d doc: %d url: %s\n", mincount, id, url);
       webpage_delete(page);
    }
-   return(0);
+   //return 0;
 }
 
 //static helement_t *hel;
@@ -153,7 +158,7 @@ int main(void) {
 
    //const char * printArray2[5] = {"examples", "coding", "course", "guide", "join"};
    //int len = 4;
-   const char * printArray2[2] = {"dartmouth", "college"};
+   const char * printArray2[2] = {"coding","course"};
    //somewhere in here we have to compare ranks.... 
    //im not exactly sure where that would be but yeah
    //char* filename= "depth0Indexnm";
@@ -230,8 +235,12 @@ int main(void) {
    }
    printf("final qapply\n");
    qapply(outputQueue,printqel); 
-
+   //qclose(qIdsWithWord); 
    rankfn(outputQueue);
-   return 1;
+   
+   happly(htable, freeq); 
+	hclose(htable);
+   qclose(outputQueue);
+   return 0;
    
 }               
