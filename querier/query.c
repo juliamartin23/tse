@@ -24,7 +24,7 @@ int main(void){
    char str[MAXREG];
    char* token; 
    char* printArray[MAXREG];
-   char delimit[]=" \t"; 
+	 char delimit[]=" \t\n"; 
 
    printf("> ");
    fgets(str,80,stdin); 
@@ -39,24 +39,25 @@ int main(void){
    while(token != NULL){
       // printf("word\n");
       //printf("token: %s\n", token);
-      for(int i=0; i< strlen(token) && strcmp(&token[i],"\n") && (token[i] != '\t'); i++) {
+		 for(int i=0; i< strlen(token); i++){
         
          if (!isalpha(token[i])) {
             printf("[invalid query]\n");
+						printf("%c",token[i]);
             return 1;
          }
          token[i] = tolower(token[i]);
          
       }
-      if(strcmp(token, "\t")){
+      if(!strcmp(token, "\t")){
           printArray[j] = token; 
-      }
-      
-      token = strtok(NULL, " ");
-      j++;
+					token = strtok(NULL, delimit);  
+			}
+			 token = strtok(NULL, delimit);   
+			j++;
     }
     
-    for(int k=0; k<j; k++){
+	 for(int k=0; k<(j=1;0 k++){
         if(strcmp(printArray[k],"\t")){
             printf("%s ", printArray[k]);
         }
