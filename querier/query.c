@@ -22,196 +22,223 @@
 #include <hash.h>
 
 #define MAXREG 100
-// typedef struct helement {
-// 	char word[MAXREG];
-// 	queue_t *qt;
-// } helement_t;
+typedef struct helement { 
+	char word[MAXREG]; 
+	queue_t *qt; 
+} helement_t; 
 
-// typedef struct qelement {
-// 	int documentid;
-// 	int count;
-// 	struct qelement *next;
-// } qelement_t;
+typedef struct qelement { 
+	int documentid;  
+	int count; 
+	struct qelement *next; 
+} qelement_t; 
 
-// helement_t *make_hel3(char *word){
-// 	helement_t *pp = (helement_t*)malloc(sizeof(helement_t));
-// 	if(!pp){
-// 		printf("Error: malloc failed allocating element\n");
-// 		return NULL;
-// 	}
-// 	strcpy(pp->word, word);
-// 	return pp;
-// }
+helement_t *make_hel3(char *word){
+	helement_t *pp = (helement_t*)malloc(sizeof(helement_t)); 
+	if(!pp){
+		printf("Error: malloc failed allocating element\n");
+		return NULL;  
+	}
+	strcpy(pp->word, word); 
+	return pp; 
+}
 
-// qelement_t *make_qel3(int documentid, int count){
-// 	qelement_t *pp = (qelement_t*)malloc(sizeof(qelement_t));
-// 	if(!pp){
-// 		printf("Error: malloc failed allocating element\n");
-// 		return NULL;
-// 	}
-// 	pp->next = NULL;
-// 	pp->count = count;
-// 	pp->documentid = documentid;
-// 	return pp;
-// }
-// static void printqel(void *p) {
-// 	qelement_t* qel = (qelement_t *) p;
-// 	printf("id: %d, count: %d ", qel->documentid, qel->count);
-// }
-// bool searchpage2 (void *elementp, const void *keyp){
-// 	helement_t* element = elementp;
-// 	//printf("word: %s\n", element->word);
-// 	if(strcmp(element->word, keyp) == 0) {
-// 		return true;
-// 	}
-// 	return false;
-// }
-// bool searchfn2 (void *elementp, const void *keyp){
-//     qelement_t* qp = (qelement_t *)elementp;
-//     int* key = (int *)keyp;
-//     return((qp->documentid) == *(int*) key);
-// }
+qelement_t *make_qel3(int documentid, int count){
+	qelement_t *pp = (qelement_t*)malloc(sizeof(qelement_t)); 
+	if(!pp){
+		printf("Error: malloc failed allocating element\n");
+		return NULL;  
+	}
+	pp->next = NULL; 
+	pp->count = count; 
+	pp->documentid = documentid; 
+	return pp; 
+}
+static void printqel(void *p) {
+	qelement_t* qel = (qelement_t *) p; 
+	printf("id: %d, count: %d\n", qel->documentid, qel->count); 
+}
 
-int main(void)
-{
-   char str[MAXREG];
-   char *token;
-   char *printArray[MAXREG];
-   char *delimit = " \t\n";
+bool searchpage2 (void *elementp, const void *keyp){
+	helement_t* element = elementp; 
+	//printf("word: %s\n", element->word); 
+	if(strcmp(element->word, keyp) == 0) {
+		return true;
+	} 
+	return false; 
+}
+bool searchfn2 (void *elementp, const void *keyp){
+    qelement_t* qp = (qelement_t *)elementp;
+    int* key = (int *)keyp;
+    return((qp->documentid) == *(int*) key);
+}
 
-   printf("> ");
-   fgets(str, 100, stdin);
-   token = strtok(str, delimit);
+void freeq(void *elementp){
+ 	helement_t* hel = (helement_t *)elementp;
+ 	qclose(hel->qt); 
+}
 
-   if (!strcmp(token, "\n"))
-   {
-      printf("> ");
+
+
+void rankfn(queue_t *qt){
+   
+   qelement_t * qel;
+   qelement_t * qel2;
+   int id;
+   int count;
+   int mincount=100;
+   char *dirnm = "../pages-depth3";
+
+   while((qel= qget(qt))!=NULL){
+      id= qel->documentid;
+      count= qel->count;
+      mincount=count;
+      while((qel2= qremove(qt,searchfn2, &id))!=NULL){
+         if (qel2->count < mincount){
+            mincount=qel2->count;
+         }
+      }
+      webpage_t *page = pageload(id, dirnm);
+      char *url = webpage_getURL(page);
+      printf("rank: %d doc: %d url: %s\n", mincount, id, url);
+      webpage_delete(page);
    }
+   //return 0;
+}
+
+int tokenized (char* str, char** printArray){
+   char *delimit = " \t\n";
+   char *token;
+   token = strtok(str, delimit);
+   int counter = 0; 
 
    int j = 0;
-   while (token)
-   {
-      for (int i = 0; i < strlen(token); i++)
-      {
-
-         if (!isalpha(token[i]))
-         {
-            printf("[invalid query]\n");
-            return 1;
+   while (token){
+      for (int i = 0; i < strlen(token); i++){
+         if (!isalpha(token[i])){
+            //printf("[invalid query]\n");
+            return 0;
          }
          token[i] = tolower(token[i]);
       }
-      if (strcmp(token, "\t") != 0 && strcmp(token, " ") != 0)
-      {
+      if (strcmp(token, "\t") != 0 && strcmp(token, " ") != 0){
          printArray[j] = token;
+         counter++; 
       }
-
       token = strtok(NULL, delimit);
       j++;
    }
 
-   for (int k = 0; k < j; k++)
-   {
-      if (strcmp(printArray[k], "\t"))
-      {
-         printf("%s ", printArray[k]);
-      }
+   if(token){
+      if (!strcmp(token, "\n")){
+       printf("> ");
+    }
    }
-   printf("\b\n");
+    return counter;
 }
 
-// const char * printArray2[5] = {"examples", "coding", "course", "guide", "join"};
+// if(hsearch(htable,searchpage2, word, strlen(word))){
+//             helement_t *hel = hsearch(htable, searchpage2, word, strlen(word)); 
+// 				//queue associated with the word
+//             qt = hel->qt; 
+				
+//             //if we are in the first iteration copy all things from the word queue to our new queue
+//             if (i==0) {
+//                //is this allowed? yes 
+//                qIdsWithWord = qt;
+//                //qapply(qIdsWithWord,printqel);
+//             }
+//             else {
+            
+//             //for second, third words etc check through all ids and only keep 
+//             //how to get the ids from the new queue I created?
+//             //maybe i can qget them if i qput them back in?
+//             qelement_t *qel;
+//             qelement_t *qelFound;
 
-// //somewhere in here we have to compare ranks....
-// //im not exactly sure where that would be but yeah
-// hashtable_t *htable = indexload(depth0Indexnm);
+//             while( (qel=qget(qt))!=NULL){
+//                if((qelFound = qsearch(qIdsWithWord, searchfn2, &qel->documentid)) != NULL ) { 
+//                   //remove the current listing
+//                   qremove(qIdsWithWord, searchfn2, &qel->documentid);
+//                   //re-add so you know its in the first and iteratively until this word
+//                   qput(outputQueue, qelFound);
+//                   qput(outputQueue, qel);
+//                }
+//                else {
+//                   //take it out of the queue so our final queue won't contain this or print it out
+//                   //qremove(qIdsWithWord, searchfn2, &qel->documentid);
+//                }
+//             }
+//             qIdsWithWord = outputQueue;
 
-// queue_t *qIdsWithWord;
-// for(int i=0; i<5; i++) {
-//    char *word = printArray2[i];
-//    if(hsearch(htable,searchpage2, word, strlen(word))){
-//          helement_t *hel = hsearch(htable, searchpage2, word, strlen(word));
-// 			//queue associated with the word
-//          queue_t *qt = hel->qt;
-
-//          //if we are in the first iteration copy all things from the word queue to our new queue
-//          if (i==0) {
-//             //is this allowed?
-//             qIdsWithWord = qt;
 //          }
-//          //for second, third words etc check through all ids and only keep
-//          //how to get the ids from the new queue I created?
-//          //maybe i can qget them if i qput them back in?
-//          qelement_t *qel = qget(qt);
-//          qelement_t *qelFound;
-//          if((qelFound = qsearch(qt, searchfn2, &qel->documentid)) != NULL ) {
-//             //remove the current listing
-//             qremove(qIdsWithWord, searchfn2, &qel->documentid);
-//             //re-add so you know its in the first and iteratively until this word
-//             qput(qIdsWithWord, qel);
-//          }
-//          else {
-//             //take it out of the queue so our final queue won't contain this or print it out
-//             qremove(qIdsWithWord, searchfn2, &qel->documentid);
-//          }
+//       }   
+//    }
 
-// }
+int ranking(queue_t *outputQueue, char** printArray, hashtable_t* index, int count){
+   queue_t *temp = qopen();
 
-// // char  * wordArray[5];
-// // int  countArray[5];
-// // static FILE *fp;
+   for(int i=0; i<count; i++) {
+      char *word = printArray[i];
 
-// // char* filename= "../indexer/depth0Indexnm";
-// // //hashtable_t *table = hopen(TABLESIZE);
-// //  fp = fopen(filename, "r");
+      if(strcmp(word, "or")){
+         
+         //add to my total outputQueue (moving temp queue to total queue)
+      }
+      else if(!strcmp(word, "and"){
+         //add to my temp queue 
+         //
+         //1. if the word does not exist, 
+      }
+   }
+   //unionize temp and outputQueue (get all counts from temp and add them to outputQueue) 
+      
+}
 
-// //  if(fp == NULL){
-// //       printf("file is empty \n");
-// //      return NULL;
-// //  }
+int main(void)
+{
+   char str[MAXREG];
+   char *printArray[MAXREG];
+   int count = 0; 
 
-// // queue_t qt = qopen();
-// // int id;
-// // int count;
-// // char s[100];
-// // int minCount = 100;
+   printf("> ");
+   char* filename= "indexnm2";
+   hashtable_t *htable = indexload(filename);
+   
+   while((fgets(str, 500, stdin))!=NULL){
+      //fgets(str, 100, stdin);
+      count = tokenized(str,printArray); 
 
-// // int inDoc = 0;
-// // while(fscanf(fp, "%s", s) == 1)  {
-// //    for(int i=0; i<5; i++) {
-// //    if(strcmp(s, printArray2[i])==0){
+      if(count==0){
+         printf("Invalid query:\n");
+         printf("> ");
+         continue;
+      }
 
-// //    //printf("array[i]:%s\n", printArray[i]);
-// //    //printf("s: %s\n", s);
-// //    inDoc = inDoc+1;
-// // 	while(fscanf(fp, "%d %d", &id, &count) == 2){
-// // 		qelement_t *qel = make_qel3(id, count);
-// // 		qput(qt, qel);
-// //       if (count < minCount) {
-// //          minCount = count;
-// //       }
-// //       //printf("i: %d\n", i);
-// //       printf("%s:%d ", s, count);
-// //       //strcpy(wordArray[i],s);
-// //       countArray[i] = count;
+      printf("\b\n");
+      printf("> ");
 
-// // 		//printf("id: %d, count: %d\n", qel->documentid, qel->count);
-// // 	}
-// // 	//hput(table, hel, s, strlen(s));
-// //    }
-// //    }
+      for(int i=0; i < count; i++){
+         printf("%s ", printArray[i]); 
+      }
+      printf("\n"); 
 
-// // }
+      queue_t *outputQueue;
 
-// // for(int k=0; k<5; k++){
-// //    //printf("%s :", wordArray[k]);
-// //    printf("%d ", countArray[k]);
-// // }
+      if(ranking(outputQueue, printArray, htable, count)!=0){
+         printf("error occurred"); 
+         qclose(outputQueue); 
+         continue; 
+      } 
 
-// // printf("- %d\n", minCount);
-// // if (inDoc != 5) {
-// //    printf("[invalid query]\n");
-// // }
-// // fclose(fp);
+      printf("final qapply\n");
+      qapply(outputQueue,printqel); 
+      rankfn(outputQueue);
+   
+      happly(htable, freeq); 
+      qclose(outputQueue);
+   }
+   hclose(htable);
+   
+}
 
-// // return 0;

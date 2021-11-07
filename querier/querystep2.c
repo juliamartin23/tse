@@ -86,7 +86,7 @@ int main(void){
       //printf("s: %s\n", s);
 
       while(fscanf(fp, "%d %d", &id, &count) == 2){ 
-         qelement_t *qel = make_qel3(id, count); 
+        //qelement_t *qel = make_qel3(id, count); 
          //qput(qt, qel);
          if (count < minCount) {
             minCount = count;

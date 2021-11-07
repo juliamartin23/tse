@@ -148,11 +148,7 @@ int main(void) {
             //maybe i can qget them if i qput them back in?
             qelement_t *qel;
             qelement_t *qelFound;
-            // printf("i=%d\n", i);
-            // printf("before first while\n");
-            // qapply(qIdsWithWord,printqel);
-            // printf("qt before first while\n");
-            // qapply(qt,printqel); 
+
             while( (qel=qget(qt))!=NULL){
                if((qelFound = qsearch(qIdsWithWord, searchfn2, &qel->documentid)) != NULL ) { 
                   //remove the current listing
