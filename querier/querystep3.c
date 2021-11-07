@@ -58,10 +58,10 @@ qelement_t *make_qel3(int documentid, int count){
 	pp->documentid = documentid; 
 	return pp; 
 }
-static void printqel(void *p) {
-	qelement_t* qel = (qelement_t *) p; 
-	printf("id: %d, count: %d\n", qel->documentid, qel->count); 
-}
+// static void printqel(void *p) {
+// 	qelement_t* qel = (qelement_t *) p; 
+// 	printf("id: %d, count: %d\n", qel->documentid, qel->count); 
+// }
 
 bool searchpage2 (void *elementp, const void *keyp){
 	helement_t* element = elementp; 
@@ -79,7 +79,8 @@ bool searchfn2 (void *elementp, const void *keyp){
 
 void freeq(void *elementp){
  	helement_t* hel = (helement_t *)elementp;
- 	qclose(hel->qt); 
+ 	qclose(hel->qt);
+
 }
 
 
@@ -101,63 +102,22 @@ void rankfn(queue_t *qt){
          if (qel2->count < mincount){
             mincount=qel2->count;
          }
+         free(qel2);
       }
       webpage_t *page = pageload(id, dirnm);
       char *url = webpage_getURL(page);
       printf("rank: %d doc: %d url: %s\n", mincount, id, url);
       webpage_delete(page);
+      free(qel);
    }
    //return 0;
 }
 
-//static helement_t *hel;
+
 
 int main(void) {
 
-    //char str[MAXREG];
-    //char* token; 
-    //char* printArray[MAXREG];
-    //char delimit[]=" \t"; 
-
-   // printf("> ");
-   // fgets(str,80,stdin); 
-   // token = strtok(str, delimit); 
    
-    
-   // if(strcmp(token, "\n") == 0){
-   //    printf("> "); 
-   // }
-
-   // int j = 0; 
-   // while(token != NULL){
-   //    // printf("word\n");
-   //    //printf("token: %s\n", token);
-   //    for(int i=0; i< strlen(token) && strcmp(&token[i],"\n") && (token[i] != '\t'); i++) {
-        
-   //       if (!isalpha(token[i])) {
-   //          printf("[invalid query]\n");
-   //          return 1;
-   //       }
-   //       token[i] = tolower(token[i]);
-         
-   //    }
-   //    if(strcmp(token, "\t")){
-   //        printArray[j] = token; 
-   //    }
-      
-   //    token = strtok(NULL, " ");
-   //    j++;
-   //  }
-    
-   //  for(int k=0; k<j; k++){
-   //      if(strcmp(printArray[k],"\t")){
-   //          printf("%s ", printArray[k]);
-   //      }
-      
-   
-
-   //const char * printArray2[5] = {"examples", "coding", "course", "guide", "join"};
-   //int len = 4;
    const char * printArray2[2] = {"coding","course"};
    //somewhere in here we have to compare ranks.... 
    //im not exactly sure where that would be but yeah
@@ -201,40 +161,20 @@ int main(void) {
                   qput(outputQueue, qelFound);
                   qput(outputQueue, qel);
                   //qapply(qIdsWithWord,printqel);
-                  //qput(qtcopy, qel);
                }
                else {
+                  free(qel);
+                  free(qelFound);
                   //take it out of the queue so our final queue won't contain this or print it out
                   //qremove(qIdsWithWord, searchfn2, &qel->documentid);
                }
             }
             qIdsWithWord = outputQueue;
-
-            // printf("qWord before second while\n");
-            // qapply(qIdsWithWord,printqel); 
-            // printf("qtcopy before second while\n");
-            // qapply(qtcopy,printqel); 
-            // while((qel=qget(qIdsWithWord))!=NULL){
-            //    if((qelFound = qsearch(qtcopy, searchfn2, &qel->documentid)) != NULL ) { 
-            //       //remove the current listing
-            //       qremove(qIdsWithWord, searchfn2, &qel->documentid);
-            //       //re-add so you know its in the first and iteratively until this word
-            //       qput(qIdsWithWord, qel);
-            //       //qapply(qIdsWithWord,printqel);
-            //    } 
-            //    else {
-            //       //take it out of the queue so our final queue won't contain this or print it out
-            //       qremove(qIdsWithWord, searchfn2, &qel->documentid);
-            //    } 
-            // }
-            // printf("after second while\n");
-            // qapply(qIdsWithWord,printqel);  
-            // printf("...\n");
          }
-      }   
+      }
    }
-   printf("final qapply\n");
-   qapply(outputQueue,printqel); 
+   //printf("final qapply\n");
+   //qapply(outputQueue,printqel); 
    //qclose(qIdsWithWord); 
    rankfn(outputQueue);
    
