@@ -114,54 +114,7 @@ void rankfn(queue_t *qt){
 
 int main(void) {
 
-    //char str[MAXREG];
-    //char* token; 
-    //char* printArray[MAXREG];
-    //char delimit[]=" \t"; 
-
-   // printf("> ");
-   // fgets(str,80,stdin); 
-   // token = strtok(str, delimit); 
-   
-    
-   // if(strcmp(token, "\n") == 0){
-   //    printf("> "); 
-   // }
-
-   // int j = 0; 
-   // while(token != NULL){
-   //    // printf("word\n");
-   //    //printf("token: %s\n", token);
-   //    for(int i=0; i< strlen(token) && strcmp(&token[i],"\n") && (token[i] != '\t'); i++) {
-        
-   //       if (!isalpha(token[i])) {
-   //          printf("[invalid query]\n");
-   //          return 1;
-   //       }
-   //       token[i] = tolower(token[i]);
-         
-   //    }
-   //    if(strcmp(token, "\t")){
-   //        printArray[j] = token; 
-   //    }
-      
-   //    token = strtok(NULL, " ");
-   //    j++;
-   //  }
-    
-   //  for(int k=0; k<j; k++){
-   //      if(strcmp(printArray[k],"\t")){
-   //          printf("%s ", printArray[k]);
-   //      }
-      
-   
-
-   //const char * printArray2[5] = {"examples", "coding", "course", "guide", "join"};
-   //int len = 4;
-   const char * printArray2[2] = {"coding","course"};
-   //somewhere in here we have to compare ranks.... 
-   //im not exactly sure where that would be but yeah
-   //char* filename= "depth0Indexnm";
+   const char * printArray2[2] = {"coding","course"}; 
    char* filename= "indexnm2";
    hashtable_t *htable = indexload(filename);
    queue_t *qt;
@@ -188,11 +141,7 @@ int main(void) {
             //maybe i can qget them if i qput them back in?
             qelement_t *qel;
             qelement_t *qelFound;
-            // printf("i=%d\n", i);
-            // printf("before first while\n");
-            // qapply(qIdsWithWord,printqel);
-            // printf("qt before first while\n");
-            // qapply(qt,printqel); 
+
             while( (qel=qget(qt))!=NULL){
                if((qelFound = qsearch(qIdsWithWord, searchfn2, &qel->documentid)) != NULL ) { 
                   //remove the current listing
@@ -200,8 +149,6 @@ int main(void) {
                   //re-add so you know its in the first and iteratively until this word
                   qput(outputQueue, qelFound);
                   qput(outputQueue, qel);
-                  //qapply(qIdsWithWord,printqel);
-                  //qput(qtcopy, qel);
                }
                else {
                   //take it out of the queue so our final queue won't contain this or print it out
@@ -210,32 +157,11 @@ int main(void) {
             }
             qIdsWithWord = outputQueue;
 
-            // printf("qWord before second while\n");
-            // qapply(qIdsWithWord,printqel); 
-            // printf("qtcopy before second while\n");
-            // qapply(qtcopy,printqel); 
-            // while((qel=qget(qIdsWithWord))!=NULL){
-            //    if((qelFound = qsearch(qtcopy, searchfn2, &qel->documentid)) != NULL ) { 
-            //       //remove the current listing
-            //       qremove(qIdsWithWord, searchfn2, &qel->documentid);
-            //       //re-add so you know its in the first and iteratively until this word
-            //       qput(qIdsWithWord, qel);
-            //       //qapply(qIdsWithWord,printqel);
-            //    } 
-            //    else {
-            //       //take it out of the queue so our final queue won't contain this or print it out
-            //       qremove(qIdsWithWord, searchfn2, &qel->documentid);
-            //    } 
-            // }
-            // printf("after second while\n");
-            // qapply(qIdsWithWord,printqel);  
-            // printf("...\n");
          }
       }   
    }
    printf("final qapply\n");
    qapply(outputQueue,printqel); 
-   //qclose(qIdsWithWord); 
    rankfn(outputQueue);
    
    happly(htable, freeq); 
