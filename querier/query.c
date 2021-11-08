@@ -180,8 +180,10 @@ int ranking(queue_t *outputQueue, char** printArray, hashtable_t* index, int cou
       char *word = printArray[i];
 
       if(strcmp(word, "or")==0){
-         qelement_t *elementp = orq->front;
+         qelement_t *elementp = orq->front; 
          int id = 0; 
+         //iterating through the or queue to find the element with the given document id 
+         //update the count for that id so it is the sum of cat OR dog ranks 
          while(elementp!=NULL){
             qelement_t *curr = qsearch(andq, searchfn2, id); 
             elementp->count += curr->count; 
@@ -189,13 +191,17 @@ int ranking(queue_t *outputQueue, char** printArray, hashtable_t* index, int cou
          }
       }
       else if(!strcmp(word, "and"){  
-         rankfn(outputQueue, andq); 
+         rankfn(outputQueue, andq); //perform rank function to get min value and store it in and queue 
       }
    }
+   //just goes through to print out final values of whatever query operations were performed 
    for(int i=0; i<count; i++){
       qelement_t *temp = org->front; 
       printf("doc %d %d\n", temp->id, temp->count); 
    }
+
+   qclose(andq); 
+   qclose(orq); 
       
 }
 
