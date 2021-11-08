@@ -80,8 +80,8 @@ void freeq(void *elementp){
 
 
 
-void rankfn(queue_t *qt){
-   
+void rankfn(queue_t *qt, queue_t *temp){
+
    qelement_t * qel;
    qelement_t * qel2;
    int id;
@@ -89,7 +89,7 @@ void rankfn(queue_t *qt){
    int mincount=100;
    char *dirnm = "../pages-depth3";
 
-   while((qel= qget(qt))!=NULL){
+   while((qel= qget(qt))!=NULL){ 
       id= qel->documentid;
       count= qel->count;
       mincount=count;
@@ -101,6 +101,7 @@ void rankfn(queue_t *qt){
       webpage_t *page = pageload(id, dirnm);
       char *url = webpage_getURL(page);
       printf("rank: %d doc: %d url: %s\n", mincount, id, url);
+      qput(temp,qel); 
       webpage_delete(page);
    }
    //return 0;
@@ -134,64 +135,67 @@ int tokenized (char* str, char** printArray){
        printf("> ");
     }
    }
-    return counter;
+   return counter;
 }
 
-// if(hsearch(htable,searchpage2, word, strlen(word))){
-//             helement_t *hel = hsearch(htable, searchpage2, word, strlen(word)); 
-// 				//queue associated with the word
-//             qt = hel->qt; 
-				
-//             //if we are in the first iteration copy all things from the word queue to our new queue
-//             if (i==0) {
-//                //is this allowed? yes 
-//                qIdsWithWord = qt;
-//                //qapply(qIdsWithWord,printqel);
-//             }
-//             else {
-            
-//             //for second, third words etc check through all ids and only keep 
-//             //how to get the ids from the new queue I created?
-//             //maybe i can qget them if i qput them back in?
-//             qelement_t *qel;
-//             qelement_t *qelFound;
 
-//             while( (qel=qget(qt))!=NULL){
-//                if((qelFound = qsearch(qIdsWithWord, searchfn2, &qel->documentid)) != NULL ) { 
-//                   //remove the current listing
-//                   qremove(qIdsWithWord, searchfn2, &qel->documentid);
-//                   //re-add so you know its in the first and iteratively until this word
-//                   qput(outputQueue, qelFound);
-//                   qput(outputQueue, qel);
-//                }
-//                else {
-//                   //take it out of the queue so our final queue won't contain this or print it out
-//                   //qremove(qIdsWithWord, searchfn2, &qel->documentid);
-//                }
-//             }
-//             qIdsWithWord = outputQueue;
+void helper(queue_t* queue, hashtable_t *htable, char* word){
 
-//          }
-//       }   
-//    }
+   if(hsearch(htable,searchpage2, word, strlen(word))){
+      helement_t *hel = hsearch(htable, searchpage2, word, strlen(word)); 
+      qt = hel->qt; 
+      
+      if (i==0){
+         qIdsWithWord = qt; 
+      }
+      else {
+         qelement_t *qel;
+         qelement_t *qelFound;
+         
+         while((qel=qget(qt))!=NULL){
+            if((qelFound = qsearch(qIdsWithWord, searchfn2, &qel->documentid)) != NULL ) { 
+               //remove the current listing
+               qremove(qIdsWithWord, searchfn2, &qel->documentid);
+               //re-add so you know its in the first and iteratively until this word 
+               qput(outputQueue, qelFound);
+               qput(outputQueue, qel);
+            }
+            else {
+               //take it out of the queue so our final queue won't contain this or print it out
+               //qremove(qIdsWithWord, searchfn2, &qel->documentid);
+            }
+         }
+         qIdsWithWord = outputQueue;
+
+      }
+   }   
+}
+
 
 int ranking(queue_t *outputQueue, char** printArray, hashtable_t* index, int count){
-   queue_t *temp = qopen();
+   queue_t *andq = qopen();
+   queue_t *orq = qopen(); 
 
    for(int i=0; i<count; i++) {
       char *word = printArray[i];
 
-      if(strcmp(word, "or")){
-         
-         //add to my total outputQueue (moving temp queue to total queue)
+      if(strcmp(word, "or")==0){
+         qelement_t *elementp = orq->front;
+         int id = 0; 
+         while(elementp!=NULL){
+            qelement_t *curr = qsearch(andq, searchfn2, id); 
+            elementp->count += curr->count; 
+            id++; 
+         }
       }
-      else if(!strcmp(word, "and"){
-         //add to my temp queue 
-         //
-         //1. if the word does not exist, 
+      else if(!strcmp(word, "and"){  
+         rankfn(outputQueue, andq); 
       }
    }
-   //unionize temp and outputQueue (get all counts from temp and add them to outputQueue) 
+   for(int i=0; i<count; i++){
+      qelement_t *temp = org->front; 
+      printf("doc %d %d\n", temp->id, temp->count); 
+   }
       
 }
 
