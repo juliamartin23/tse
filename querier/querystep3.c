@@ -83,6 +83,36 @@ void freeq(void *elementp){
 
 }
 
+int tokenized (char* str, char** printArray){
+   char *delimit = " \t\n";
+   char *token;
+   token = strtok(str, delimit);
+   int counter = 0; 
+
+   int j = 0;
+   while (token){
+      for (int i = 0; i < strlen(token); i++){
+         if (!isalpha(token[i])){
+            //printf("[invalid query]\n");
+            return 0;
+         }
+         token[i] = tolower(token[i]);
+      }
+      if (strcmp(token, "\t") != 0 && strcmp(token, " ") != 0){
+         printArray[j] = token;
+         counter++; 
+      }
+      token = strtok(NULL, delimit);
+      j++;
+   }
+
+   if(token){
+      if (!strcmp(token, "\n")){
+       printf("> ");
+    }
+   }
+    return counter;
+}
 
 
 void rankfn(queue_t *qt){
@@ -115,10 +145,35 @@ void rankfn(queue_t *qt){
 
 
 
-int main(void) {
+int main(void){
+   char str[MAXREG];
+   char *printArray[MAXREG];
+   int count = 0; 
 
+   printf("> ");
+   //char* filename= "indexnm2";
+   //hashtable_t *htable = indexload(filename);
    
-   const char * printArray2[2] = {"coding","course"};
+   while((fgets(str, 500, stdin))!=NULL){
+      //fgets(str, 100, stdin);
+      count = tokenized(str,printArray); 
+
+      if(count==0){
+         printf("Invalid query:\n");
+         printf("> ");
+         continue;
+      }
+
+      printf("\b\n");
+      printf("> ");
+
+      for(int i=0; i < count; i++){
+         printf("%s ", printArray[i]); 
+      }
+      printf("\n"); 
+   
+   
+   //const char * printArray2[2] = {"coding","course"};
    //somewhere in here we have to compare ranks.... 
    //im not exactly sure where that would be but yeah
    //char* filename= "depth0Indexnm";
@@ -128,8 +183,11 @@ int main(void) {
    queue_t *qIdsWithWord;
    queue_t *outputQueue = qopen();
 
-   for(int i=0; i<2; i++) {
-      const char *word = printArray2[i];
+   //check only one word case
+   
+
+   for(int i=0; i<count; i++) {
+      const char *word = printArray[i];
       if(hsearch(htable,searchpage2, word, strlen(word))){
             helement_t *hel = hsearch(htable, searchpage2, word, strlen(word)); 
 				//queue associated with the word
@@ -140,6 +198,18 @@ int main(void) {
                //is this allowed? yes 
                qIdsWithWord = qt;
                //qapply(qIdsWithWord,printqel);
+               if (count == 1) {
+                  const char *word = printArray[0];
+                  if(hsearch(htable,searchpage2, word, strlen(word))){
+                        helement_t *hel = hsearch(htable, searchpage2, word, strlen(word)); 
+                        //queue associated with the word
+                        qt = hel->qt;
+                        qelement_t *qel;
+                        while( (qel=qget(qt))!=NULL){
+                              qput(outputQueue, qel);
+                           }
+                  }
+               }
             }
             else {
             
@@ -148,6 +218,7 @@ int main(void) {
             //maybe i can qget them if i qput them back in?
             qelement_t *qel;
             qelement_t *qelFound;
+
 
             while( (qel=qget(qt))!=NULL){
                if((qelFound = qsearch(qIdsWithWord, searchfn2, &qel->documentid)) != NULL ) { 
@@ -168,6 +239,12 @@ int main(void) {
             qIdsWithWord = outputQueue;
          }
       }
+      else {
+         happly(htable, freeq); 
+	      hclose(htable);
+         qclose(outputQueue);
+         return 0;
+      }
    }
    //printf("final qapply\n");
    //qapply(outputQueue,printqel); 
@@ -178,5 +255,5 @@ int main(void) {
 	hclose(htable);
    qclose(outputQueue);
    return 0;
-   
+   }
 }               
