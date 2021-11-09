@@ -55,8 +55,10 @@ qelement_t *make_qel3(int documentid, int count){
 	return pp; 
 }
 static void printqel(void *p) {
-	qelement_t* qel = (qelement_t *) p; 
-	printf("id: %d, count: %d\n", qel->documentid, qel->count); 
+   if (p != NULL) {
+      qelement_t* qel = (qelement_t *) p; 
+      printf("id: %d, count: %d\n", qel->documentid, qel->count); 
+   }
 }
 
 bool searchpage2 (void *elementp, const void *keyp){
@@ -78,16 +80,13 @@ void freeq(void *elementp){
  	qclose(hel->qt); 
 }
 
-
-
-void rankfn(queue_t *qt, queue_t *temp){
+void rankfn(queue_t *qt){
 
    qelement_t * qel;
    qelement_t * qel2;
    int id;
    int count;
    int mincount=100;
-   char *dirnm = "../pages-depth3";
 
    while((qel= qget(qt))!=NULL){ 
       id= qel->documentid;
@@ -98,14 +97,10 @@ void rankfn(queue_t *qt, queue_t *temp){
             mincount=qel2->count;
          }
       }
-      webpage_t *page = pageload(id, dirnm);
-      char *url = webpage_getURL(page);
-      printf("rank: %d doc: %d url: %s\n", mincount, id, url);
-      qput(temp,qel); 
-      webpage_delete(page);
    }
    //return 0;
 }
+
 
 int tokenized (char* str, char** printArray){
    char *delimit = " \t\n";
@@ -139,74 +134,105 @@ int tokenized (char* str, char** printArray){
 }
 
 
-void helper(queue_t* queue, hashtable_t *htable, char* word){
 
-   if(hsearch(htable,searchpage2, word, strlen(word))){
-      helement_t *hel = hsearch(htable, searchpage2, word, strlen(word)); 
-      qt = hel->qt; 
-      
-      if (i==0){
-         qIdsWithWord = qt; 
-      }
-      else {
-         qelement_t *qel;
-         qelement_t *qelFound;
-         
-         while((qel=qget(qt))!=NULL){
-            if((qelFound = qsearch(qIdsWithWord, searchfn2, &qel->documentid)) != NULL ) { 
-               //remove the current listing
-               qremove(qIdsWithWord, searchfn2, &qel->documentid);
-               //re-add so you know its in the first and iteratively until this word 
-               qput(outputQueue, qelFound);
-               qput(outputQueue, qel);
-            }
-            else {
-               //take it out of the queue so our final queue won't contain this or print it out
-               //qremove(qIdsWithWord, searchfn2, &qel->documentid);
-            }
-         }
-         qIdsWithWord = outputQueue;
+void unionize(queue_t* outputQueue, queue_t* addingQueue){
+   if(addingQueue == NULL){
+      return; 
+   }
 
+   queue_t* backupQueue = qopen(); 
+   qelement_t* currelement; 
+   while((currelement = qget(addingQueue))!=NULL){ 
+      qelement_t* found = qsearch(outputQueue, searchfn2, &currelement->documentid); 
+
+      if(found != NULL){
+         found->count += currelement->count; 
       }
-   }   
+      else{
+         qelement_t* newelement = make_qel3(currelement->documentid, currelement->count); 
+         qput(outputQueue, newelement); 
+      }
+      qput(backupQueue, currelement); 
+   }
+   qconcat(addingQueue, backupQueue); 
+
 }
 
+void intersection(queue_t* outputQueue, queue_t* minimizeQueue){
+   queue_t* backupQueue = qopen(); 
+   qelement_t* currelement; 
 
-int ranking(queue_t *outputQueue, char** printArray, hashtable_t* index, int count){
-   queue_t *andq = qopen();
-   queue_t *orq = qopen(); 
+   while((currelement = qget(minimizeQueue))!=NULL){
+      qelement_t* found = qsearch(outputQueue, searchfn2, &currelement->documentid); 
 
+      if(found != NULL){
+         int mincount; 
+         if(found->count < currelement->count){
+            mincount = found->count; 
+         }
+         else{
+            mincount = currelement->count; 
+         } 
+         found->count = mincount; 
+      }
+      else{
+         qelement_t* newelement = make_qel3(currelement->documentid, currelement->count); 
+         qput(outputQueue, newelement); 
+      }
+      qput(backupQueue, currelement); 
+   }
+   qconcat(minimizeQueue, backupQueue); 
+
+}
+
+int ranking(queue_t *outputQueue, char** printArray, hashtable_t* htable, int count){
+   if(outputQueue == NULL || printArray == NULL || htable == NULL || count < 1){
+      return 1; 
+   }
+
+   queue_t *andq = NULL;
+   
    for(int i=0; i<count; i++) {
       char *word = printArray[i];
 
       if(strcmp(word, "or")==0){
-         qelement_t *elementp = orq->front; 
-         int id = 0; 
-         //iterating through the or queue to find the element with the given document id 
-         //update the count for that id so it is the sum of cat OR dog ranks 
-         while(elementp!=NULL){
-            qelement_t *curr = qsearch(andq, searchfn2, id); 
-            elementp->count += curr->count; 
-            id++; 
+         unionize(outputQueue,andq); 
+         if(andq != NULL) qclose(andq); 
+         andq = NULL; 
+      }
+      else if(strcmp(word, "and") != 0){ 
+         //get from index the associated queue for word 
+         helement_t *hel = hsearch(htable, searchpage2, word, strlen(word));
+         if(hel== NULL){
+            int j = i+1;  
+            while(j < count){
+               if(strcmp(printArray[j], "or")==0){
+                  break; 
+               }
+               j++; 
+            }
+            i = j-1; 
+         }
+
+         else if(andq == NULL){
+            andq = qopen(); 
+            unionize(andq, hel->qt); 
+         }
+         else{
+            intersection(andq, hel->qt); 
          }
       }
-      else if(!strcmp(word, "and"){  
-         rankfn(outputQueue, andq); //perform rank function to get min value and store it in and queue 
-      }
    }
-   //just goes through to print out final values of whatever query operations were performed 
-   for(int i=0; i<count; i++){
-      qelement_t *temp = org->front; 
-      printf("doc %d %d\n", temp->id, temp->count); 
+   if(andq != NULL){
+      unionize(outputQueue,andq); 
+      qclose(andq); 
+      andq = NULL; 
    }
-
-   qclose(andq); 
-   qclose(orq); 
+   return 0; 
       
 }
 
-int main(void)
-{
+int main(void){
    char str[MAXREG];
    char *printArray[MAXREG];
    int count = 0; 
@@ -219,36 +245,59 @@ int main(void)
       //fgets(str, 100, stdin);
       count = tokenized(str,printArray); 
 
-      if(count==0){
+      if(count==0 || (strcmp(printArray[0],"and") == 0) || (strcmp(printArray[0],"or") == 0)){
          printf("Invalid query:\n");
          printf("> ");
          continue;
       }
 
-      printf("\b\n");
-      printf("> ");
+      printf("\n");
+
+      if((strcmp(printArray[count-1],"and") == 0) || (strcmp(printArray[count-1],"or") == 0))
+      {
+         printf("Invalid query:\n");
+         printf("> "); 
+         continue; 
+      }
+      
+      for(int i=0; i < count-1; i++){
+         if((strcmp(printArray[i],"and") && strcmp(printArray[i+1], "and")) || (strcmp(printArray[i],"or") && strcmp(printArray[i+1], "or"))){
+            printf("Invalid query:\n");
+            printf("> "); 
+            return 0; 
+         }
+
+         if((strcmp(printArray[i],"and") && strcmp(printArray[i+1], "or")) || (strcmp(printArray[i],"or") && strcmp(printArray[i+1], "and"))){
+            printf("Invalid query:\n");
+            printf("> "); 
+            return 0; 
+         }
+      }
 
       for(int i=0; i < count; i++){
          printf("%s ", printArray[i]); 
       }
       printf("\n"); 
-
-      queue_t *outputQueue;
+      queue_t *outputQueue = qopen();
 
       if(ranking(outputQueue, printArray, htable, count)!=0){
-         printf("error occurred"); 
+         printf("error occurred\n"); 
+         printf(">"); 
          qclose(outputQueue); 
          continue; 
       } 
-
-      printf("final qapply\n");
+      printf("Final Count: \n"); 
       qapply(outputQueue,printqel); 
-      rankfn(outputQueue);
+      //rankfn(outputQueue);
    
-      happly(htable, freeq); 
+
       qclose(outputQueue);
+      printf("> ");
    }
+   happly(htable, freeq); 
    hclose(htable);
+   return 0; 
+
    
 }
 
