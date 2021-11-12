@@ -155,14 +155,25 @@ void unionize(queue_t* outputQueue, queue_t* addingQueue){
 
       if(found != NULL){
          found->count += currelement->count; 
+         //qelement_t* newelement = make_qel3(currelement->documentid, currelement->count); 
+         //qput(outputQueue, newelement); 
       }
       else{
+         //free(found);
+
          qelement_t* newelement = make_qel3(currelement->documentid, currelement->count); 
          qput(outputQueue, newelement); 
       }
       qput(backupQueue, currelement); 
    }
-   qconcat(addingQueue, backupQueue); 
+   if (currelement != NULL){
+      qconcat(addingQueue, backupQueue); 
+   }
+   else{
+      //qclose(addingQueue);
+      qclose(backupQueue);
+      free(currelement);
+   }
 
 }
 
@@ -240,14 +251,27 @@ int ranking(queue_t *outputQueue, char** printArray, hashtable_t* htable, int co
       
 }
 
-int main(void){
+int main(int argc, char *argv[]){
    char str[MAXREG];
    char *printArray[MAXREG];
    int count = 0; 
 
+   char* dirnm = argv[1];
+
+
+
    printf("> ");
-   char* filename= "indexnm2";
-   hashtable_t *htable = indexload(filename);
+   char* filename= argv[2];
+   FILE *fp;
+   char file[100];
+	sprintf(file, "../%s/.querier",dirnm);
+	fp = fopen(file,"r");
+	if (fp== NULL) {
+		printf("wrong dir\n");
+		return 1;
+	}
+	fclose(fp);
+
 
    
    while((fgets(str, 500, stdin))!=NULL){
@@ -294,6 +318,8 @@ int main(void){
       }
       printf("\n"); 
       queue_t *outputQueue = qopen();
+      hashtable_t *htable = indexload(filename);
+
 
       if(ranking(outputQueue, printArray, htable, count)!=0){
          printf("error occurred\n"); 
@@ -310,12 +336,12 @@ int main(void){
       qclose(outputQueue);
       printf("> ");
 
-
+   happly(htable, freeq); 
+   hclose(htable);
  
    }
 
-   happly(htable, freeq); 
-   hclose(htable);
+
    return 0;
 
    

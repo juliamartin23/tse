@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "queue.h"
+#include <queue.h>
 #include <lockedqueue.h>
 
 #define MAXREG 10
@@ -12,6 +12,7 @@ typedef struct car {
 	double price;
 	int year;
 } car_t;
+
 
 
 static void printcar(void *p) {
@@ -35,6 +36,12 @@ car_t *make_car(char *plate,double price,int year)  {
 	return pp;
 }
 
+bool searchfn (void *elementp, const void *keyp){
+    car_t* cp = (car_t *)elementp;
+    int* key = (int *)keyp;
+    return(cp->year == *key);
+}
+
 int main(void){
   	
     lqueue_t *lqp = lqopen(); 
@@ -50,6 +57,42 @@ int main(void){
 
     lqapply(lqp, printcar);
     printf("....\n");
+
+	void *carp1= lqget(lqp);
+	car_t* cp1 = (car_t *)carp1;
+
+	if(cp1==NULL){
+		printf("got car\n");
+		lqclose(lqp);
+		printcar(cp1);
+		free(cp1);
+		exit(EXIT_FAILURE);
+	}
+
+	const int key= 2007;  
+	void *foundCar = lqsearch(lqp, searchfn, (void *)&key);
+	car_t* fCar = (car_t *)foundCar;
+
+	if(fCar==NULL){
+		printf("found car\n");
+		printcar(fCar);
+		lqclose(lqp);
+		exit(EXIT_FAILURE);
+	}
+	printf("got car\n");
+	printcar(cp1);
 	
-    exit(EXIT_SUCCESS); 
+	printf("....\n");
+
+	printf("found car\n");
+	printcar(fCar);
+
+	printf("....\n");
+	printf("final queue\n");
+	lqapply(lqp, printcar);
+
+
+	lqclose(lqp);
+	free(cp1);
+    exit(EXIT_FAILURE); 
 }
