@@ -20,6 +20,8 @@
 #include <indexio.h>
 #include <queue.h>
 #include <hash.h>
+#include <webpage.h>
+#include <pageio.h>
 
 #define MAXREG 100
 typedef struct helement { 
@@ -57,7 +59,13 @@ qelement_t *make_qel3(int documentid, int count){
 static void printqel(void *p) {
    if (p != NULL) {
       qelement_t* qel = (qelement_t *) p; 
-      printf("id: %d, count: %d\n", qel->documentid, qel->count); 
+      int count = qel->count;
+      int id= qel->documentid;
+      char *dirnm = "../pages-depth3";
+      webpage_t *page = pageload(id, dirnm);
+      char *url = webpage_getURL(page);
+      printf("rank: %d doc: %d url: %s\n", count, id, url);
+      webpage_delete(page);
    }
 }
 
@@ -147,14 +155,25 @@ void unionize(queue_t* outputQueue, queue_t* addingQueue){
 
       if(found != NULL){
          found->count += currelement->count; 
+         //qelement_t* newelement = make_qel3(currelement->documentid, currelement->count); 
+         //qput(outputQueue, newelement); 
       }
       else{
+         //free(found);
+
          qelement_t* newelement = make_qel3(currelement->documentid, currelement->count); 
          qput(outputQueue, newelement); 
       }
       qput(backupQueue, currelement); 
    }
-   qconcat(addingQueue, backupQueue); 
+   if (currelement != NULL){
+      qconcat(addingQueue, backupQueue); 
+   }
+   else{
+      //qclose(addingQueue);
+      qclose(backupQueue);
+      free(currelement);
+   }
 
 }
 
@@ -232,71 +251,98 @@ int ranking(queue_t *outputQueue, char** printArray, hashtable_t* htable, int co
       
 }
 
-int main(void){
+int main(int argc, char *argv[]){
    char str[MAXREG];
    char *printArray[MAXREG];
    int count = 0; 
 
+   char* dirnm = argv[1];
+
+
+
    printf("> ");
-   char* filename= "indexnm2";
-   hashtable_t *htable = indexload(filename);
+   char* filename= argv[2];
+   FILE *fp;
+   char file[100];
+	sprintf(file, "../%s/.querier",dirnm);
+	fp = fopen(file,"r");
+	if (fp== NULL) {
+		printf("wrong dir\n");
+		return 1;
+	}
+	fclose(fp);
+
+
    
    while((fgets(str, 500, stdin))!=NULL){
       //fgets(str, 100, stdin);
       count = tokenized(str,printArray); 
 
       if(count==0 || (strcmp(printArray[0],"and") == 0) || (strcmp(printArray[0],"or") == 0)){
-         printf("Invalid query:\n");
+         printf("Invalid query\n");
          printf("> ");
          continue;
+         //return 0;
       }
 
-      printf("\n");
+      // printf("\n");
 
       if((strcmp(printArray[count-1],"and") == 0) || (strcmp(printArray[count-1],"or") == 0))
       {
-         printf("Invalid query:\n");
+         printf("Invalid query\n");
          printf("> "); 
          continue; 
+         //return 0;
       }
       
       for(int i=0; i < count-1; i++){
-         if((strcmp(printArray[i],"and") && strcmp(printArray[i+1], "and")) || (strcmp(printArray[i],"or") && strcmp(printArray[i+1], "or"))){
+         if(((strcmp(printArray[i],"and") == 0) && (strcmp(printArray[i+1], "and") == 0)) || 
+            ((strcmp(printArray[i],"or") == 0) && (strcmp(printArray[i+1], "or") == 0))){
             printf("Invalid query:\n");
+            //printf("> "); 
             printf("> "); 
-            return 0; 
+            continue;
          }
 
-         if((strcmp(printArray[i],"and") && strcmp(printArray[i+1], "or")) || (strcmp(printArray[i],"or") && strcmp(printArray[i+1], "and"))){
+         if(((strcmp(printArray[i],"and") == 0) && (strcmp(printArray[i+1], "or") == 0)) || 
+            ((strcmp(printArray[i],"or") == 0) && (strcmp(printArray[i+1], "and") == 0))){
             printf("Invalid query:\n");
+            //printf("> "); 
             printf("> "); 
-            return 0; 
+            continue;
          }
-      }
+       }
 
       for(int i=0; i < count; i++){
          printf("%s ", printArray[i]); 
       }
       printf("\n"); 
       queue_t *outputQueue = qopen();
+      hashtable_t *htable = indexload(filename);
+
 
       if(ranking(outputQueue, printArray, htable, count)!=0){
          printf("error occurred\n"); 
          printf(">"); 
          qclose(outputQueue); 
-         continue; 
+         continue;
+         //return 0; 
       } 
-      printf("Final Count: \n"); 
+      //printf("Final Count: \n"); 
       qapply(outputQueue,printqel); 
       //rankfn(outputQueue);
    
 
       qclose(outputQueue);
       printf("> ");
-   }
+
    happly(htable, freeq); 
    hclose(htable);
-   return 0; 
+ 
+   }
+
+
+   return 0;
 
    
 }
