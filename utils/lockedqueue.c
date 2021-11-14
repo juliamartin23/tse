@@ -18,26 +18,12 @@ typedef struct rlqueue {
     queue_t *qt; 
 } rlqueue_t; 
 
-typedef struct car {
-	struct car *next;
-	char plate[MAXREG];
-	double price;
-	int year;
-} car_t;
-
-static void printcar(void *p) {
-	car_t* cp = (car_t *)p;
-	printf("Plate : %s, Price: %f, Year: %d\n", cp->plate, cp->price, cp->year);
-}
-
 		
 lqueue_t* lqopen(void) {
     rlqueue_t* lqp = (rlqueue_t*)malloc(sizeof(rlqueue_t));  
     pthread_mutex_init(&(lqp->mutex),NULL); 
-    pthread_mutex_lock(&(lqp->mutex)); 
     queue_t *qp = qopen(); 
     lqp->qt = qp; 
-    pthread_mutex_unlock(&(lqp->mutex)); 
     return lqp; 
 }      
 
@@ -67,7 +53,6 @@ void* lqget(lqueue_t *qp) {
     void* element = qget(rqp->qt); 
     //sleep(waitTime); 
     pthread_mutex_unlock(&(rqp->mutex)); 
-    printcar(element);
     return element; 
 }
 

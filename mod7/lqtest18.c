@@ -120,7 +120,75 @@ int main(void){
     lqapply(lqp, printcar);
     printf("....\n");
 
+<<<<<<< HEAD
 	createthread(threadarray,gettingfn, numt,lqp); 
+=======
+	// void *carp1= lqget(lqp);
+	// car_t* cp1 = (car_t *)carp1;
+
+	// if(cp1==NULL){
+	// 	printf("got car\n");
+	// 	lqclose(lqp);
+	// 	printcar(cp1);
+	// 	free(cp1);
+	// 	exit(EXIT_FAILURE);
+	// }
+
+	// const int key= 2007;  
+	// void *foundCar = lqsearch(lqp, searchfn, (void *)&key);
+	// car_t* fCar = (car_t *)foundCar;
+
+	// if(fCar==NULL){
+	// 	printf("found car\n");
+	// 	printcar(fCar);
+	// 	lqclose(lqp);
+	// 	exit(EXIT_FAILURE);
+	// }
+	// printf("got car\n");
+	// printcar(cp1);
+	
+	// printf("....\n");
+
+	// printf("found car\n");
+	// printcar(fCar);
+
+	// printf("....\n");
+	// printf("final queue\n");
+	// lqapply(lqp, printcar);
+
+	arg_t *argument;
+	car_t *carp5;
+
+	
+
+	if((pthread_create(&tid1,NULL,lqput,(void *)lqp))!=0) {  
+	exit(EXIT_FAILURE);             	
+}					
+
+	if((pthread_create(&tid2,NULL,lqget,(void *)lqp))!=0) {  
+	exit(EXIT_FAILURE);             	
+}		
+
+	if((pthread_create(&tid3,NULL,lqget,(void *)lqp))!=0) {  
+	exit(EXIT_FAILURE);             	
+}		
+
+ 
+if((pthread_join(tid3,NULL))!=0) {  
+	exit(EXIT_FAILURE);             	
+}		
+	printf("after join thread 3\n");
+
+if(((pthread_join(tid2,NULL))!=0)) {   
+	exit(EXIT_FAILURE);             	
+}		
+	printf("after join thread 2\n");
+
+if(((pthread_join(tid1,NULL))!=0)) {   
+	exit(EXIT_FAILURE);             	
+}		
+	printf("after join thread 1\n");
+>>>>>>> 194732a6f07fe1766460ab89a92d7156267bec77
 
 	printf("final \n");
 	lqapply(lqp,printcar);
