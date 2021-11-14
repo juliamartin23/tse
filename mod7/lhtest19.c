@@ -3,9 +3,11 @@
 #include <string.h>
 #include <queue.h>
 #include <lockedqueue.h>
+#include <lockedhash.h> 
 #include <pthread.h>   
 #include <unistd.h>  
 
+#define TABLESIZE 10  
 #define MAXREG 10
 
 int num = 4; 
@@ -69,31 +71,25 @@ void createthread (pthread_t threadarr[],void*(fn)(void*arg), int number, void* 
 }
 
 
-void* gettingfn(void* arg){
-	lqueue_t *lqt = (lqueue_t*) arg; 
-	sleep(3); 
-	car_t* car; 
-	while((car= lqget(lqt))!=NULL){
-		printf("Removing plate : %s, Price: %f, Year: %d\n", car->plate, car->price, car->year);
-		free(car); 
-	}
-	return NULL; 
-}
-
 void* puttingfn(void* arg){
-	lqueue_t *lqt = (lqueue_t*) arg; 
+	lhashtable_t *table = (lhashtable_t*) arg; 
+    char word[10]; 
 	while(num!=0){
 		car_t *car = make_car("plate", 3000, index++); 
-		lqput(lqt, car); 
+        sprintf(word,"%d",index); 
+		lhput(table, car, word,strlen(word)); 
 		num--; 
 	}
 	return NULL; 
 }
 
 void* searchingfn(void* arg){
-	lqueue_t *lqt = (lqueue_t*) arg; 
+	lhashtable_t *table = (lhashtable_t*) arg; 
 	car_t* car; 
-	if((car = lqsearch(lqt, searchfn, &index))!=NULL){
+    char word[10];
+    sprintf(word,"%d",index); 
+
+	if((car = lhsearch(table, searchfn, word, strlen(word)))!=NULL){
 		printf("car with year %d found\n", index); 
 		printf("Car-> "); 
 		printcar(car); 
@@ -106,34 +102,34 @@ car_t *front=NULL;
 int main(void){
 	int numt = 2; 
   	pthread_t threadarray[numt]; 
-    lqueue_t *lqp = lqopen(); 
+    lhashtable_t* ltable = lhopen(TABLESIZE);
     //car_t *queuep= qopen();
     
     car_t *p1 = make_car("1",3000,2005);
 	car_t *p2 = make_car("2",3002,2006);
 	car_t *p3 = make_car("3",3003,2007);
 
-    lqput(lqp,(void *)p1);
-	lqput(lqp,(void *)p2);
-	lqput(lqp,(void *)p3);
+    lhput(ltable,(void *)p1, "1", strlen("1"));
+	lhput(ltable,(void *)p2, "2", strlen("2"));
+	lhput(ltable,(void *)p3, "3", strlen("3"));
 
-    lqapply(lqp, printcar);
+    lhapply(ltable, printcar);
     printf("....\n");
 
-	createthread(threadarray,gettingfn, numt,lqp); 
+	//createthread(threadarray,gettingfn, numt,ltable); 
 
 	printf("final \n");
-	lqapply(lqp,printcar);
-	lqclose(lqp);
+	lhapply(ltable,printcar);
+	lhclose(ltable);
 
 	printf("Testing lqput: \n");
-	lqueue_t *lqp2 = lqopen(); 
-	createthread(threadarray,puttingfn, numt,lqp2); 
+	lhashtable_t* ltable2 = lhopen(TABLESIZE); 
+	createthread(threadarray,puttingfn, numt,ltable2); 
 	printf("final \n");
-	lqapply(lqp2,printcar);
+	lhapply(ltable2,printcar);
 	index = 2001; 
-	createthread(threadarray,searchingfn, numt,lqp2);
-	lqclose(lqp2);
+	createthread(threadarray,searchingfn, numt,ltable2);
+	lhclose(ltable2);
 
 	//free(cp1);
     exit(EXIT_SUCCESS); 
