@@ -83,14 +83,16 @@ void* puttingfn(void* arg){
 	return NULL; 
 }
 
-void* searchingfn(void* arg){
+void* searchingfn(void* arg){ 
+    printf("searching"); 
 	lhashtable_t *table = (lhashtable_t*) arg; 
 	car_t* car; 
-    char word[10];
-    sprintf(word,"%d",index); 
+    // char word[10];
+    // int index = 2003; 
+    // sprintf(word,"%d",index); 
 
-	if((car = lhsearch(table, searchfn, word, strlen(word)))!=NULL){
-		printf("car with year %d found\n", index); 
+	if((car = lhsearch(table, searchfn, "plate", strlen("plate")))!=NULL){
+		printf("car with year %s found\n", "plate"); 
 		printf("Car-> "); 
 		printcar(car); 
 	} 
@@ -122,12 +124,13 @@ int main(void){
 	lhapply(ltable,printcar);
 	lhclose(ltable);
 
-	printf("Testing lqput: \n");
+	printf("Testing lhput: \n");
 	lhashtable_t* ltable2 = lhopen(TABLESIZE); 
 	createthread(threadarray,puttingfn, numt,ltable2); 
 	printf("final \n");
 	lhapply(ltable2,printcar);
 	index = 2001; 
+    printf("Testing search fn: \n");
 	createthread(threadarray,searchingfn, numt,ltable2);
 	lhclose(ltable2);
 
