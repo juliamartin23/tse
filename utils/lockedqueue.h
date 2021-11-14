@@ -6,7 +6,9 @@
 #include <stdbool.h>
 
 /* the queue representation is hidden from users of the module */
-typedef void lqueue_t;		
+typedef void lqueue_t;	
+
+//typedef void result_t;
 
 /* create an empty queue */
 lqueue_t* lqopen(void);        

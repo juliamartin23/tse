@@ -49,7 +49,7 @@ bool searchfn (void *elementp, const void *keyp){
 }
 
 int main(void){
-  	pthread_t tid1,tid2;
+  	pthread_t tid1,tid2,tid3;
     lqueue_t *lqp = lqopen(); 
     //car_t *queuep= qopen();
     
@@ -103,36 +103,33 @@ int main(void){
 	//argument->queue= lqp
 
 	if((pthread_create(&tid1,NULL,lqget,(void *)lqp))!=0) {  
-	printf("Thread 1 created:");
 	exit(EXIT_FAILURE);             	
 }					
-	printf("after first thread creation\n");
-	lqapply(lqp,printcar);	
 
 	if((pthread_create(&tid2,NULL,lqget,(void *)lqp))!=0) {  
-	printf("Thread 2 created:");
-	exit(EXIT_FAILURE);             	
-}				
-
-	printf("after second thread creation\n");
-	lqapply(lqp,printcar);
-
-if((pthread_join(tid1,NULL))!=0) {  
-	printf("Thread 1 joined:"); 
-	printf("before sleep\n");
-	lqapply(lqp,printcar);	
-	sleep(3); 
 	exit(EXIT_FAILURE);             	
 }		
-	
-	//sleep(3); 
-	printf("after sleep\n");
-	lqapply(lqp,printcar);
+
+
+	if((pthread_create(&tid3,NULL,lqget,(void *)lqp))!=0) {  
+	exit(EXIT_FAILURE);             	
+}		
+
+ 
+if((pthread_join(tid3,NULL))!=0) {  
+	exit(EXIT_FAILURE);             	
+}		
+	printf("after join thread 3\n");
 
 if(((pthread_join(tid2,NULL))!=0)) {   
-	printf("Thread 2 joined:");
 	exit(EXIT_FAILURE);             	
 }		
+	printf("after join thread 2\n");
+
+if(((pthread_join(tid1,NULL))!=0)) {   
+	exit(EXIT_FAILURE);             	
+}		
+	printf("after join thread 1\n");
 
 	printf("final \n");
 	lqapply(lqp,printcar);
