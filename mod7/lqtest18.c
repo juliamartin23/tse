@@ -100,16 +100,15 @@ int main(void){
 	arg_t *argument;
 	car_t *carp5;
 
-	//argument->queue= lqp
+	
 
-	if((pthread_create(&tid1,NULL,lqget,(void *)lqp))!=0) {  
+	if((pthread_create(&tid1,NULL,lqput,(void *)lqp))!=0) {  
 	exit(EXIT_FAILURE);             	
 }					
 
 	if((pthread_create(&tid2,NULL,lqget,(void *)lqp))!=0) {  
 	exit(EXIT_FAILURE);             	
 }		
-
 
 	if((pthread_create(&tid3,NULL,lqget,(void *)lqp))!=0) {  
 	exit(EXIT_FAILURE);             	
