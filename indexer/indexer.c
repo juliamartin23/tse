@@ -122,8 +122,8 @@ void sumwords(void *elementp) {
 int main(int argc, char *argv[]){
 
 	int loop = 1; 
-	int id= atoi(argv[1]);
-	char* dirnm= "../pages-depth3";//argv[1];
+	// int id= atoi(argv[1]);
+	char* dirnm=  argv[1];
 	char* indexnm = argv[2]; 
  	
 	//FILE *fp;
@@ -142,8 +142,11 @@ int main(int argc, char *argv[]){
 	//page=pageload(loop, dirnm);
 	
 	while((page=pageload(loop, dirnm)) != NULL) {
+		printf("url: %s\n", webpage_getURL(page));
 		int pos=0;
 		while((pos=webpage_getNextWord(page, pos, &word))>0) {
+
+
 			//printf("id: %d\n", id);
 			queue_t *qt; 
 

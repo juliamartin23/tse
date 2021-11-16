@@ -4,8 +4,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <pthread.h>
-#include <lockedqueue.h> 
-#include <queue.h>
+#include "lockedqueue.h"
+#include "queue.h"
 #include <unistd.h>  
 
 

@@ -1,4 +1,4 @@
-#include <stdlib.h>
+#include <stdlib.h> 
 #include <stdio.h>
 #include <string.h>
 #include <queue.h>
@@ -41,9 +41,16 @@ car_t *make_car(char *plate,double price,int year)  {
 }
 
 bool searchfn (void *elementp, const void *keyp){
-    car_t* cp = (car_t *)elementp;
-    int* key = (int *)keyp;
-    return(cp->year == *key);
+	car_t* cp = (car_t *)elementp;
+    char* key = (char *)keyp;
+    if (strcmp(cp->plate, key)==0) {
+		}
+		else {
+			//			printf("different\n");
+			//			printf("element: %s\n", cp->plate);
+			//	printf("key: %s\n", key);
+		}
+	 		return (strcmp(cp->plate, key)==0);
 }
 
 static void printcar(void *p) {
@@ -73,36 +80,44 @@ void createthread (pthread_t threadarr[],void*(fn)(void*arg), int number, void* 
 
 void* puttingfn(void* arg){
 	lhashtable_t *table = (lhashtable_t*) arg; 
-    char word[10]; 
-	while(num!=0){
-		car_t *car = make_car("plate", 3000, index++); 
+    char word[10];
+		int year2= 2018;
+		int num2= 4;
+		char word2[10];
+
+	while(num2!=0){
+		sprintf(word2, "plate%d", num2);   
+		car_t *car = make_car(word2, 3000, year2++); 
         sprintf(word,"%d",index); 
-		lhput(table, car, word,strlen(word)); 
-		num--; 
+		lhput(table, car, word2,strlen(word2)); 
+		num2--; 
 	}
 	return NULL; 
 }
 
 void* searchingfn(void* arg){ 
-    printf("searching"); 
 	lhashtable_t *table = (lhashtable_t*) arg; 
 	car_t* car; 
     // char word[10];
     // int index = 2003; 
     // sprintf(word,"%d",index); 
+	
 
-	if((car = lhsearch(table, searchfn, "plate", strlen("plate")))!=NULL){
-		printf("car with year %s found\n", "plate"); 
+	char *wordname= "plate99";
+	if((car = lhsearch(table, searchfn, wordname,strlen(wordname)))!=NULL){
+		printf("car with year %s found\n", car->plate); 
 		printf("Car-> "); 
 		printcar(car); 
-	} 
-	return NULL; 
+	}else{
+		printf("it returned null\n");
+	}
+		return NULL; 
 }
 
 car_t *front=NULL;
 
 int main(void){
-	int numt = 2; 
+	int numt = 1; 
   	pthread_t threadarray[numt]; 
     lhashtable_t* ltable = lhopen(TABLESIZE);
     //car_t *queuep= qopen();
@@ -123,19 +138,20 @@ int main(void){
 	printf("final \n");
 	lhapply(ltable,printcar);
 	lhclose(ltable);
-
+	
 	printf("Testing lhput: \n");
 	lhashtable_t* ltable2 = lhopen(TABLESIZE); 
 	createthread(threadarray,puttingfn, numt,ltable2); 
+	
 	printf("final \n");
 	lhapply(ltable2,printcar);
-	index = 2001; 
-    printf("Testing search fn: \n");
+	index = 2018; 
+
 	createthread(threadarray,searchingfn, numt,ltable2);
 	lhclose(ltable2);
-
+	
 	//free(cp1);
-    exit(EXIT_SUCCESS); 
+	exit(EXIT_SUCCESS); 
 
 }
 
